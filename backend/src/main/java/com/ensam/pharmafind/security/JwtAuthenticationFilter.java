@@ -1,4 +1,4 @@
-package com.ensam.pharmafind.config;
+package com.ensam.pharmafind.security;
 
 import com.ensam.pharmafind.util.JwtUtil;
 import jakarta.servlet.FilterChain;
@@ -28,6 +28,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
+        if (request.getServletPath().contains("/api/v1/auth/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         final String authorizationHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;

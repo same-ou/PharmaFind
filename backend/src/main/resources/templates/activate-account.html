@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Activation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f7;
+            margin: 0;
+            padding: 0;
+            color: #51545e;
+        }
+        .email-wrapper {
+            width: 100%;
+            padding: 20px;
+            background-color: #f4f4f7;
+        }
+        .email-content {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .email-header {
+            background-color: #1a73e8;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .email-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .email-body {
+            padding: 20px;
+        }
+        .email-body h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .email-body p {
+            margin: 0 0 20px;
+        }
+        .email-body a {
+            display: inline-block;
+            background-color: #1a73e8;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .email-footer {
+            text-align: center;
+            font-size: 12px;
+            color: #999999;
+            padding: 20px 0;
+            background-color: #f4f4f7;
+        }
+    </style>
+</head>
+<body>
+<div class="email-wrapper">
+    <div class="email-content">
+        <div class="email-header">
+            <h1>Account Activation</h1>
+        </div>
+        <div class="email-body">
+            <h2>Hello <span th:text="${username}"></span>,</h2>
+            <p>Thank you for registering with us. Please click the button below to activate your account:</p>
+            <p><a th:href="${confirmationURL}">Activate Account</a></p>
+            <p>If you did not request this registration, please ignore this email.</p>
+            <p>Your activation code is: <strong th:text="${activationCode}"></strong></p>
+            <p>Best regards,<br>The ENSAM-Casa Team</p>
+        </div>
+    </div>
+    <div class="email-footer">
+        &copy; 2024 ENSAM-Casa. All rights reserved.
+    </div>
+</div>
+</body>
+</html>
