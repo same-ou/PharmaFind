@@ -1,9 +1,9 @@
 package com.ensam.pharmafind.controllers;
 
 import com.ensam.pharmafind.service.AuthenticationService;
-import com.ensam.pharmafind.dto.AuthenticationResponse;
-import com.ensam.pharmafind.dto.LoginRequest;
-import com.ensam.pharmafind.dto.RegistrationRequest;
+import com.ensam.pharmafind.dto.responses.AuthenticationResponse;
+import com.ensam.pharmafind.dto.requests.LoginRequest;
+import com.ensam.pharmafind.dto.requests.RegistrationRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;

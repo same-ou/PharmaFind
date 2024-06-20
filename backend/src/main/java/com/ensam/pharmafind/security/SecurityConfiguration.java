@@ -1,5 +1,6 @@
 package com.ensam.pharmafind.security;
 
+import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -23,12 +25,19 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // todo : enable Authentication and implement role based access control
         http
-                .cors(Customizer.withDefaults())
+                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
+                                .dispatcherTypeMatchers(DispatcherType.ERROR, DispatcherType.FORWARD)
+                                .permitAll()
                                 .requestMatchers(
+                                        "/actuator/**",
+                                        "/pharmacies",
+                                        "/pharmacies/**",
+                                        "/products/**",
                                         "/auth/**",
                                         "/v2/api-docs",
                                         "/v3/api-docs",

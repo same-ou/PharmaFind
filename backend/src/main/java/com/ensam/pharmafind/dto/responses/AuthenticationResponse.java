@@ -1,4 +1,4 @@
-package com.ensam.pharmafind.dto;
+package com.ensam.pharmafind.dto.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

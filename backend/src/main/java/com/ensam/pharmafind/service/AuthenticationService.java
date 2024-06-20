@@ -1,15 +1,16 @@
 package com.ensam.pharmafind.service;
 
+import com.ensam.pharmafind.entities.Client;
 import com.ensam.pharmafind.entities.Token;
 import com.ensam.pharmafind.entities.User;
 import com.ensam.pharmafind.enums.EmailTemplateName;
 import com.ensam.pharmafind.repository.RoleRepository;
 import com.ensam.pharmafind.repository.TokenRepository;
 import com.ensam.pharmafind.repository.UserRepository;
-import com.ensam.pharmafind.dto.AuthenticationResponse;
+import com.ensam.pharmafind.dto.responses.AuthenticationResponse;
 import com.ensam.pharmafind.util.JwtUtil;
-import com.ensam.pharmafind.dto.LoginRequest;
-import com.ensam.pharmafind.dto.RegistrationRequest;
+import com.ensam.pharmafind.dto.requests.LoginRequest;
+import com.ensam.pharmafind.dto.requests.RegistrationRequest;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,12 +37,13 @@ public class AuthenticationService {
     private String activationUrl;
 
     public void register(RegistrationRequest request) throws MessagingException {
-        var user = User.builder()
+        String roleName = request.getRole() != null ? request.getRole() : "USER";
+        var user = Client.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(roleRepository.findByName("USER").orElseThrow())
+                .role(roleRepository.findByName(roleName).orElseThrow())
                 .accountLocked(false)
                 .enabled(false)
                 .build();

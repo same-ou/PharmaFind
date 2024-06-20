@@ -1,4 +1,4 @@
-package com.ensam.pharmafind.dto;
+package com.ensam.pharmafind.dto.requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -28,4 +28,6 @@ public class RegistrationRequest {
     @NotEmpty(message = "Password is required")
     @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters")
     private String password;
+
+    private String role;
 }
