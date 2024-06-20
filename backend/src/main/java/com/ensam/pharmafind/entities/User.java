@@ -22,17 +22,19 @@ import java.util.List;
 @Builder @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails, Principal {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String firstName;
     private String lastName;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     private String password;
     private Boolean accountLocked;
     private Boolean enabled;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
