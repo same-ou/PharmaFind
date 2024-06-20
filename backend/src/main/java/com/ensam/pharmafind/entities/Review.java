@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class Review {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private int evaluation;
+    private int rating;
     private String comment;
 
     @ManyToOne
