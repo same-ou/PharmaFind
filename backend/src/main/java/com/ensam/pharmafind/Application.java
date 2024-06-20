@@ -23,6 +23,10 @@ public class Application {
 			// create RULES
 			if(roleRepository.findByName("USER").isEmpty())
 				roleRepository.save( Role.builder().name("USER").build());
+			if(roleRepository.findByName("PHARMACIST").isEmpty())
+				roleRepository.save( Role.builder().name("PHARMACIST").build());
+			if(roleRepository.findByName("ADMIN").isEmpty())
+				roleRepository.save( Role.builder().name("ADMIN").build());
 		};
 	}
 }

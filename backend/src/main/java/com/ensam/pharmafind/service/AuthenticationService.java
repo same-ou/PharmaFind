@@ -37,12 +37,13 @@ public class AuthenticationService {
     private String activationUrl;
 
     public void register(RegistrationRequest request) throws MessagingException {
+        String roleName = request.getRole() != null ? request.getRole() : "USER";
         var user = Client.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(roleRepository.findByName("USER").orElseThrow())
+                .role(roleRepository.findByName(roleName).orElseThrow())
                 .accountLocked(false)
                 .enabled(false)
                 .build();
