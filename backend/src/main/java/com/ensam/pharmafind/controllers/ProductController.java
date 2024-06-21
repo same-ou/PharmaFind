@@ -55,7 +55,7 @@ public class ProductController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> whuploadProductImage(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadProductImage(@RequestParam("file") MultipartFile file) {
         try {
             String imageUrl = minioService.uploadFile(file);
             return ResponseEntity.ok(imageUrl);
