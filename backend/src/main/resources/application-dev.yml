@@ -39,6 +39,7 @@ application:
   storage:
     minio:
       url: http://localhost:9000
-      access-key: minioadmin
-      secret-key: minioadmin
+      accessKey: minioadmin
+      secretKey: minioadmin
       bucket-name: pharmafind-bucket
+      secure: false

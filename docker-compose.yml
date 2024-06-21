@@ -35,6 +35,8 @@ services:
     command: server /data --console-address ":9001"
     networks:
       - pharmaFind
+    volumes:
+      - minio:/minio/data
     restart: unless-stopped
 
 networks:
@@ -43,4 +45,6 @@ networks:
 
 volumes:
     postgres:
+      driver: local
+    minio:
       driver: local
