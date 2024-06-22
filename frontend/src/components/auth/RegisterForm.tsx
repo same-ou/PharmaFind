@@ -1,54 +1,47 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {request} from "../../Helper/Axios_helper";
+import { Link } from "react-router-dom";
+import {useForm, SubmitHandler} from "react-hook-form";
+import {z} from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "@/context/useAuth";
+
+const schema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  userName: z.string(),
+  email: z.string().email(),
+  phone: z.string(),
+  password: z.string().min(6),
+  cmPassword: z.string().min(6),
+});
+
+type formFields = z.infer<typeof schema>;
 
 const RegisterForm = () => {
-  const [input, setInput] = useState({});
-  const navigate = useNavigate();
+  const { registerUser } = useAuth();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInput((prevInput) => ({
-      ...prevInput,
-      [name]: value,
-    }));
-  };
+  const  {
+    register,
+    handleSubmit,
+    setError,
+    // formState: { errors, isSubmitting }
+  } = useForm<formFields>({
+    resolver: zodResolver(schema)
+  });
 
-  const validate = () => {
-    let stat = false;
-    if (input.password === input.cmPassword) {
-      stat = true;
-    }
-
-    return stat;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(input);
-
-    const url = "/auth/register";
-
-    if (validate()) {
-      request("post", "/auth/register", input)
-      .then((res) => {
-        console.log(res);
-        if (res.status === 202) {
-          alert("Registration Successful");
-          navigate("/activate"); // Use navigate from your routing library (e.g., react-router-dom)
-        } else {
-          alert("Registration Failed");
-        }
-      })
-      .catch((err) => {
-        console.error("Error during registration:", err);
-        alert("Registration Failed");
+  const onSubmit: SubmitHandler<formFields> = (data) => {
+    console.log(data);
+    try {
+      console.log("registering user");
+      registerUser(data.firstName, data.lastName, data.email, data.password);
+    } catch (error: any) {
+      console.log(error);
+      setError("email", {
+        type: "manual",
+        message: error.message
       });
-
-    }else{
-      alert("you should write the same password")
     }
-  };
+  }
+
 
   return (
     <div className="h-screen flex">
@@ -56,7 +49,7 @@ const RegisterForm = () => {
         <div
           className="absolute inset-0 bg-bottom bg-cover bg-no-repeat"
           style={{
-            backgroundImage: `url("https://images.unsplash.com/photo-1584362917165-526a968579e8?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bWVkaWNpbmV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60")`,
+            backgroundImage: `url("https://plus.unsplash.com/premium_photo-1668487826874-ecb21f98bb19?q=80&w=1412&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`,
           }}
         />
         <div className="h-full flex flex-col justify-center items-center text-white">
@@ -70,7 +63,7 @@ const RegisterForm = () => {
 
       <div className="flex items-center justify-center w-2/5">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           id="register-form"
           className="max-w-xl p-4 mx-auto mt-4"
         >
@@ -86,13 +79,11 @@ const RegisterForm = () => {
                 First Name
               </label>
               <input
-                name="firstName"
                 className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 border-b-2 border-gray-500 rounded appearance-none hover:border-red-500 hover:shadow-xl focus:outline-none focus:bg-white"
                 id="grid-first-name"
                 type="text"
-                placeholder="Harsh"
-                onChange={handleChange}
-                required
+                placeholder="first name"
+                {...register("firstName")}
               />
             </div>
             <div className="w-full px-3 md:w-1/2">
@@ -103,13 +94,11 @@ const RegisterForm = () => {
                 Last Name
               </label>
               <input
-                name="lastName"
                 className="block w-full px-4 py-3 leading-tight text-gray-700 border-b-2 border-gray-500 rounded appearance-none hover:border-purple-500 hover:shadow-xl focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-last-name"
                 type="text"
-                placeholder="Doe"
-                onChange={handleChange}
-                required
+                placeholder="last name"
+                {...register("lastName")}
               />
             </div>
           </div>
@@ -119,51 +108,14 @@ const RegisterForm = () => {
                 className="block mb-2 text-xs font-semibold tracking-wide text-gray-700 uppercase"
                 htmlFor="grid-username"
               >
-                Username
-              </label>
-              <input
-                name="userName"
-                className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 border-b-2 border-gray-500 rounded appearance-none hover:border-orange-500 hover:shadow-xl focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-username"
-                type="text"
-                placeholder="HarshDoe"
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-          <div className="flex flex-wrap mb-6 -mx-3">
-            <div className="w-full px-3 mb-6 md:w-1/2 md:mb-0">
-              <label
-                className="block mb-2 text-xs font-semibold tracking-wide text-gray-700 uppercase"
-                htmlFor="grid-email"
-              >
                 Email Address
               </label>
               <input
-                name="email"
-                className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 border-b-2 border-gray-500 rounded appearance-none hover:border-indigo-500 hover:shadow-xl focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-email"
-                type="email"
-                placeholder="harshdoe@example.com"
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="w-full px-3 md:w-1/2">
-              <label
-                className="block mb-2 text-xs font-semibold tracking-wide text-gray-700 uppercase"
-                htmlFor="grid-phone"
-              >
-                Phone Number
-              </label>
-              <input
-                name="phone"
-                className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 border-b-2 border-gray-500 rounded appearance-none hover:border-yellow-500 hover:shadow-xl focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-phone"
+                className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 border-b-2 border-gray-500 rounded appearance-none hover:border-orange-500 hover:shadow-xl focus:outline-none focus:bg-white focus:border-gray-500"
+                id="grid-username"
                 type="text"
-                placeholder="+88 XXXXX XXXXX"
-                onChange={handleChange}
+                placeholder="someone@email.com"
+                {...register("email")}
                 required
               />
             </div>
@@ -177,12 +129,11 @@ const RegisterForm = () => {
                 Password
               </label>
               <input
-                name="password"
                 className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 border-b-2 border-gray-500 rounded appearance-none hover:border-green-500 hover:shadow-xl focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-password"
                 type="password"
                 placeholder="Password"
-                onChange={handleChange}
+               {...register("password")}
                 required
               />
             </div>
@@ -194,13 +145,11 @@ const RegisterForm = () => {
                 Confirm Password
               </label>
               <input
-                name="cmPassword"
                 className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 border-b-2 border-gray-500 rounded appearance-none hover:border-blue-500 hover:shadow-xl focus:outline-none focus:bg-white focus:border-gray-500"
                 id="grid-confirm-password"
                 type="password"
                 placeholder="Confirm Password"
-                onChange={handleChange}
-                required
+                {...register("cmPassword")}
               />
             </div>
           </div>
@@ -210,14 +159,13 @@ const RegisterForm = () => {
               Register
             </button>
           </div>
-
           <div className="flex justify-center mt-1">
-            <h6
-              onClick={(e) => navigate("/login")}
+            <Link
+              to={"/login"}
               className="text-teal-500 hover:text-teal-700 text-lg font-semibold no-underline hover:underline cursor-pointer transition ease-in duration-300"
             >
               Already have an account?
-            </h6>
+            </Link>
           </div>
         </form>
       </div>

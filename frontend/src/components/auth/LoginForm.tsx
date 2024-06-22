@@ -1,10 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form"
 import {z} from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "@/context/useAuth";
 
 const schema = z.object({
-  email: z.string().email(),
+  email: z.string()
+          .email(),
   password: z.string().min(6),
   remember_me: z.boolean()
 });
@@ -13,20 +15,31 @@ const schema = z.object({
 type formFields = z.infer<typeof schema>;
 
 const LoginForm = () => {
+ const { loginUser } = useAuth();
   const  {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting }
+   formState: { errors }
   } = useForm<formFields>({
     resolver: zodResolver(schema)
   });
 
   const onSubmit: SubmitHandler<formFields> = (data) => {
     console.log(data);
-  }
-  const navigate = useNavigate();
+    try {
+      console.log("logging in");
+     loginUser(data.email, data.password);
 
+    } catch (error: any) {
+      console.log(error);
+      setError("email", {
+        type: "manual",
+        message: error.message
+      });
+    }
+  }
+ 
   return (
     <>
       <div className="relative min-h-screen flex">
@@ -67,14 +80,15 @@ const LoginForm = () => {
               <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
                 <input type="hidden" name="remember" value="true" />
                 <div className="relative">
-                  {errors.email && (
-                    <span className="text-red-500 text-xs">
-                      {errors.email.message}
-                    </span>
-                  )}
+                
                   <label className="ml-3 text-sm font-bold text-teal-500 tracking-wide">
                     Email
                   </label>
+                  {errors.email && (
+                    <div className="ml-3 text-red-500 text-xs">
+                      {errors.email.message}
+                    </div>
+                  )}
                   <input
                     className=" w-full text-base px-4 py-2 border-b border-gray-300 placeholder-gray-600 focus:outline-none rounded-2xl focus:border-teal-500"
                     type="email"
@@ -83,14 +97,15 @@ const LoginForm = () => {
                   />
                 </div>
                 <div className="mt-8 content-center">
-                  {errors.password && (
-                    <span className="text-red-500 text-xs">
-                      {errors.password.message}
-                    </span>
-                  )}
+                
                   <label className="ml-3 text-sm font-bold text-teal-500 tracking-wide">
                     Password
                   </label>
+                  {errors.password && (
+                    <div className="ml-3 text-red-500 text-xs">
+                      {errors.password.message}
+                    </div>
+                  )}
                   <input
                     className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 placeholder-gray-600 focus:outline-none focus:border-teal-500"
                     type="password"
@@ -99,20 +114,7 @@ const LoginForm = () => {
                   />
                 </div>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <input
-                      id="remember_me"
-                      type="checkbox"
-                      {...register('remember_me')}
-                      className="h-4 w-4 bg-teal-500 focus:ring-teal-400 border-gray-300 rounded"
-                    />
-                    <label
-                      htmlFor="remember_me"
-                      className="ml-2 block text-sm text-gray-900"
-                    >
-                      Remember me
-                    </label>
-                  </div>
+                
                   <div className="text-sm">
                     <a
                       href="#0"
