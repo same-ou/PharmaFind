@@ -3,7 +3,18 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form"
 import {z} from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "@/context/useAuth";
 
+import { Button } from "@/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input";
 
 import { toast } from "@/components/ui/use-toast"
 
@@ -17,17 +28,13 @@ const schema = z.object({
 type formFields = z.infer<typeof schema>;
 
 const Login = () => {
-
-  const  {
-    register,
-    handleSubmit,
-   formState: { errors }
-  } = useForm<formFields>({
+  const { loginUser } = useAuth();
+  const form = useForm<formFields>({
     resolver: zodResolver(schema)
   });
 
   function onSubmit(data: formFields) {
-    console.log(data);
+    loginUser(data.email, data.password);
     toast({
       title: "You submitted the following values:",
       description: (
@@ -75,42 +82,43 @@ const Login = () => {
                   Please sign in to your account
                 </p>
               </div>
-              <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                <input type="hidden" name="remember" value="true" />
-                <div className="relative">
-                
-                  <label className="ml-3 text-sm font-bold text-teal-500 tracking-wide">
-                    Email
-                  </label>
-                  {errors.email && (
-                    <div className="ml-3 text-red-500 text-xs">
-                      {errors.email.message}
-                    </div>
+              <Form {...form}>
+              <form className="mt-8 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField 
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="ml-3 text-sm font-bold text-teal-500 tracking-wide">Email</FormLabel>
+                      <FormControl>
+                        <Input 
+                        placeholder="Email" 
+                        type="email"
+                        {...field}
+                        className=" w-full text-base px-4 py-2 border-b border-gray-300 placeholder-gray-600 focus:outline-none rounded-2xl focus:border-teal-500" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   )}
-                  <input
-                    className=" w-full text-base px-4 py-2 border-b border-gray-300 placeholder-gray-600 focus:outline-none rounded-2xl focus:border-teal-500"
-                    type="email"
-                    placeholder="email"
-                    {...register("email")}
-                  />
-                </div>
-                <div className="mt-8 content-center">
-                
-                  <label className="ml-3 text-sm font-bold text-teal-500 tracking-wide">
-                    Password
-                  </label>
-                  {errors.password && (
-                    <div className="ml-3 text-red-500 text-xs">
-                      {errors.password.message}
-                    </div>
-                  )}
-                  <input
-                    className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 placeholder-gray-600 focus:outline-none focus:border-teal-500"
-                    type="password"
-                    placeholder="password"
-                    {...register('password')}
-                  />
-                </div>
+                />
+                <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="ml-3 text-sm font-bold text-teal-500 tracking-wide">Password</FormLabel>
+                    <FormControl>
+                      <Input 
+                      placeholder="Password" 
+                      type="password"
+                      {...field}
+                      className="w-full text-base px-4 py-2 border-b rounded-2xl border-gray-300 placeholder-gray-600 focus:outline-none focus:border-teal-500" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+                />
+               
                 <div className="flex items-center justify-between">
                 
                   <div className="text-sm">
@@ -123,12 +131,12 @@ const Login = () => {
                   </div>
                 </div>
                 <div>
-                  <button
+                  <Button
                     type="submit"
                     className="w-full flex justify-center bg-gradient-to-r from-teal-500 to-teal-600  hover:bg-gradient-to-l hover:from-teal-600 hover:to-teal-500 text-gray-100 p-4  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500"
                   >
                     Sign in
-                  </button>
+                  </Button>
                 </div>
                 <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-600">
                   <span>Don't have an account?</span>
@@ -140,6 +148,7 @@ const Login = () => {
                   </Link>
                 </p>
               </form>
+              </Form>
             </div>
           </div>
         </div>

@@ -12,6 +12,7 @@ import com.ensam.pharmafind.util.JwtUtil;
 import com.ensam.pharmafind.dto.requests.LoginRequest;
 import com.ensam.pharmafind.dto.requests.RegistrationRequest;
 import jakarta.mail.MessagingException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +37,7 @@ public class AuthenticationService {
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
 
+    @Transactional
     public void register(RegistrationRequest request) throws MessagingException {
         String roleName = request.getRole() != null ? request.getRole() : "USER";
         var user = Client.builder()

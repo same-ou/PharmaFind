@@ -1,7 +1,6 @@
 package com.ensam.pharmafind.config;
 
 import com.ensam.pharmafind.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableTransactionManagement
 public class ApplicationConfig {
 
     private final UserRepository userRepository;

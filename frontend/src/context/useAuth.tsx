@@ -36,29 +36,36 @@ export const AuthProvider = ({children}: Props) => {
     }, [token]);
 
     const registerUser = async (fistName: string, lastName: string, email: string, password: string) => {
-        // TODO: Implement the registerUser function
-        const data = await register(fistName,
+        await register(fistName,
             lastName, 
             email,
-            password);
-
-            navigate("/activate")
-        console.log(data);
+            password).then((res) => {
+                if (res.status === 202) {
+                    navigate("/activate")
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
     }
     const loginUser = async (email: string, password: string) => {
-        // TODO: Implement the loginUser function
-        const data = await login(email, password);
-        if(data.token) {
-            setToken(data.token);
-            navigate("/");
-        }
-        console.log(email, password);
+        await login(email, password)
+        .then((res) => {
+            if(res) {
+                console.log(res);
+                localStorage.setItem("token", res?.token);
+                setToken(res?.token);
+                // TODO : redirect to the user destination 
+                navigate("/");
+            }
+        });
     }
     const activateAccount = async (token: string) => {
         const data = await activate(token);
         console.log(data);
         if(data.token) {
-            setToken(data.token);
+            console.log(data?.token);
+            setToken(data?.token);
+            localStorage.setItem("token", data?.token);
             navigate("/");
         }
     }

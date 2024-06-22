@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import {useForm, SubmitHandler} from "react-hook-form";
 import {z} from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "@/context/useAuth";
 
 const schema = z.object({
   firstName: z.string(),
@@ -9,12 +10,20 @@ const schema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
   cmPassword: z.string().min(6),
+}).superRefine(({ cmPassword, password }, ctx) => {
+  if (password !== cmPassword) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Passwords do not match",
+      path: ["cmPassword"],
+    }); 
+  }
 });
 
 type formFields = z.infer<typeof schema>;
 
 const Register = () => {
- 
+ const {registerUser} = useAuth();
 
   const  {
     register,
@@ -26,7 +35,7 @@ const Register = () => {
 
   const onSubmit: SubmitHandler<formFields> = (data) => {
     console.log(data);
- 
+    registerUser(data.firstName, data.lastName, data.email, data.password);
   }
 
 

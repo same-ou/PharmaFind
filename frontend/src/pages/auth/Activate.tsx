@@ -20,6 +20,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp"
 import { toast } from "@/components/ui/use-toast"
+import { useAuth } from "@/context/useAuth"
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -28,6 +29,8 @@ const FormSchema = z.object({
 })
 
 export default function Activate() {
+  const {activateAccount} = useAuth()
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -45,6 +48,7 @@ export default function Activate() {
         </pre>
       ),
     })
+    activateAccount(data.pin)
   }
 
   return (
