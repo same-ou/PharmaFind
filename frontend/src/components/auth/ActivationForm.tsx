@@ -47,7 +47,8 @@ export default function ActivationForm() {
   }
 
   return (
-    <Form {...form}>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
         <FormField
           control={form.control}
@@ -77,6 +78,7 @@ export default function ActivationForm() {
         <Button type="submit">Submit</Button>
       </form>
     </Form>
+    </div>
   )
 }
 
