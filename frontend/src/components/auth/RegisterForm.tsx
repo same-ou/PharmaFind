@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {request, setAuthToken} from "../../Helper/Axios_helper";
+import {request} from "../../Helper/Axios_helper";
 
 const RegisterForm = () => {
   const [input, setInput] = useState({});
@@ -30,7 +30,6 @@ const RegisterForm = () => {
     const url = "/auth/register";
 
     if (validate()) {
-      
       request("post", "/auth/register", input)
       .then((res) => {
         console.log(res);

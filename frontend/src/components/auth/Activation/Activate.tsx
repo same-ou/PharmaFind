@@ -1,7 +1,7 @@
 // Activate.js
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { request, setAuthToken } from "../Helper/Axios_helper";
+import { request, setAuthToken } from "../../../Helper/Axios_helper";
 
 const Activate = () => {
   const [message, setMessage] = useState("");

@@ -1,9 +1,9 @@
-// src/App.js
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, 
+  createBrowserRouter} from "react-router-dom";
 import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import Registration from "./pages/Register/Registration";
-import Activate from "./Activation/Activate";
+import Login from "./pages/auth/Login";
+import Registration from "./pages/auth/Registration";
+import Activate from "./components/auth/Activation/Activate";
 
 const routes = [
   {
@@ -26,7 +26,7 @@ const routes = [
 
 const router = createBrowserRouter(routes);
 
-const App = () => {
+const App: React.FC = () => {
   return <RouterProvider router={router} />;
 };
 
