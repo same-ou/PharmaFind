@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 
 import { registerPharmacy } from "@/services/PharmacyService";
 
+import { useNavigate } from "react-router-dom";
+
 const schema = z.object({
   name: z.string(),
   telephone: z.string(),
@@ -23,14 +25,26 @@ const schema = z.object({
 type formFields = z.infer<typeof schema>;
 
 const RegisterPharmacy = () => {
+  const navigate = useNavigate();
   const form = useForm<formFields>({
     resolver: zodResolver(schema)
   });
 
   const onSubmit: SubmitHandler<formFields> = (data) => {
     console.log(data);
-    registerPharmacy(data).then((response) => {
-      console.log(response);
+    registerPharmacy(
+      data.name,
+      data.telephone,
+      data.street,
+      data.city,
+      data.postalCode
+    ).then((response) => {
+      if (response.status === 200) {
+        navigate("/pharmacists/dashboard");
+      }
+    }
+    ).catch((error) => {
+      console.log(error);
     });
   }
 
