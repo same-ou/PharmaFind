@@ -9,5 +9,5 @@ public class Delivery {
 
     @ManyToOne
     @JoinColumn(name = "delivrer_id")
-    private Delivrer delivrer;
+    private User delivrer;
 }

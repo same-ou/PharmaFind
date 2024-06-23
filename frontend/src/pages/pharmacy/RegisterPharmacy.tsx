@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import {useForm, SubmitHandler} from "react-hook-form";
 import {z} from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +9,8 @@ import { Form,
     FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
+import { registerPharmacy } from "@/services/PharmacyService";
 
 const schema = z.object({
   name: z.string(),
@@ -28,7 +29,9 @@ const RegisterPharmacy = () => {
 
   const onSubmit: SubmitHandler<formFields> = (data) => {
     console.log(data);
-
+    registerPharmacy(data).then((response) => {
+      console.log(response);
+    });
   }
 
   return (
@@ -59,7 +62,7 @@ const RegisterPharmacy = () => {
                       <FormControl>
                         <Input 
                         placeholder="name" 
-                        type="email"
+                        type="text"
                         {...field} />
                       </FormControl>
                       <FormMessage />
@@ -140,7 +143,7 @@ const RegisterPharmacy = () => {
             </div>
           </div>
           <div className="flex justify-center mt-6">
-            <Button className="px-8 py-2 w-full font-semibold text-white rounded-full shadow-lg bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500">
+            <Button className="px-8 py-2 w-full font-semibold text-white shadow-lg bg-gradient-to-r from-teal-500 to-teal-600">
               Register
             </Button>
           </div>

@@ -82,4 +82,7 @@ public class User implements UserDetails, Principal {
     public String getFullName() {
         return firstName + " " + lastName;
     }
+
+    @OneToMany(mappedBy = "delivrer")
+    private List<Delivery> deliveries;
 }
