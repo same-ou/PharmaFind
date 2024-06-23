@@ -11,12 +11,9 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface PharmacyMapper {
-  PharmacyMapper INSTANCE = Mappers.getMapper(PharmacyMapper.class);
-
+    PharmacyMapper INSTANCE = Mappers.getMapper(PharmacyMapper.class);
     AddressDTO toAddressDTO(Address address);
-
     Address toAddress(AddressDTO addressDTO);
-
     Pharmacy toPharmacy(PharmacyRequest pharmacyRequest);
     PharmacyResponse toPharmacyResponse(Pharmacy pharmacy);
 }

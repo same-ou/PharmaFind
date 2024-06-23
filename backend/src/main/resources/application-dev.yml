@@ -27,6 +27,11 @@ spring:
           enable: true
         connectiontimeout: 5000
         timeout: 3000
+  docker:
+    compose:
+      lifecycle-management: start_and_stop
+      stop:
+        command: down
 
 application:
   security:
