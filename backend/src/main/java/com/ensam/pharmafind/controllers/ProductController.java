@@ -40,18 +40,19 @@ public class ProductController {
         return ResponseEntity.ok(productService.saveProduct(productRequest));
     }
 
-    @PutMapping
-    public ResponseEntity<ProductResponse> updateProduct(
-            @RequestBody ProductRequest productRequest
-    ) {
-        return ResponseEntity.ok(productService.saveProduct(productRequest));
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(
             @PathVariable Integer id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<ProductResponse> updateProduct(
+            @RequestBody ProductRequest productRequest
+    ) {
+        return ResponseEntity.ok(productService.saveProduct(productRequest));
     }
 
     @PostMapping("/upload")
