@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 
 public class ProductImages {
 
-    @EmbeddedId
-    private ProductImagesId id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     private String imageUrl;
 
     @ManyToOne
-    @MapsId("productId")
     @JoinColumn(name = "product_id")
     private Product product;
+
 
 }
