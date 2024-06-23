@@ -4,6 +4,7 @@ import Login from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
 import Activate from "@/pages/auth/Activate";
 import Home from "@/pages/Home/Home";
+import ProductPage from "@/pages/Product/ProductPage";
 export const router = createBrowserRouter([
         {
             path: "/",
@@ -14,5 +15,10 @@ export const router = createBrowserRouter([
                 {path:"register", element: <Register />},
                 {path: "activate", element: <Activate />},
             ]
+        }
+        ,
+        {
+            path: "/product",
+            element: <ProductPage/>,
         }
 ]);
