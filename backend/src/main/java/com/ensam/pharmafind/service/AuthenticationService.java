@@ -1,9 +1,8 @@
 package com.ensam.pharmafind.service;
 
-import com.ensam.pharmafind.entities.Client;
-import com.ensam.pharmafind.entities.Token;
-import com.ensam.pharmafind.entities.User;
+import com.ensam.pharmafind.entities.*;
 import com.ensam.pharmafind.enums.EmailTemplateName;
+import com.ensam.pharmafind.dto.mappers.UserMapper;
 import com.ensam.pharmafind.repository.RoleRepository;
 import com.ensam.pharmafind.repository.TokenRepository;
 import com.ensam.pharmafind.repository.UserRepository;
@@ -40,15 +39,17 @@ public class AuthenticationService {
     @Transactional
     public void register(RegistrationRequest request) throws MessagingException {
         String roleName = request.getRole() != null ? request.getRole() : "USER";
-        var user = Client.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(roleRepository.findByName(roleName).orElseThrow())
-                .accountLocked(false)
-                .enabled(false)
-                .build();
+        Role role = roleRepository.findByName(roleName)
+                .orElseThrow(() -> new IllegalStateException("Role not found"));
+        var user = User.builder()
+                    .firstName(request.getFirstName())
+                    .lastName(request.getLastName())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(role)
+                    .accountLocked(false)
+                    .enabled(false)
+                    .build();
         userRepository.save(user);
         sendValidationEmail(user);
     }
@@ -95,6 +96,7 @@ public class AuthenticationService {
         var token = jwtUtil.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(token)
+                .user(UserMapper.INSTANCE.toUserDTO(user))
                 .build();
     }
 
@@ -117,6 +119,7 @@ public class AuthenticationService {
         tokenRepository.save(tokenEntity);
         return AuthenticationResponse.builder()
                 .token(jwtUtil.generateToken(user))
+                .user(UserMapper.INSTANCE.toUserDTO(user))
                 .build();
     }
 }

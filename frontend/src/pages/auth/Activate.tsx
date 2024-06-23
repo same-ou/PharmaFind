@@ -2,7 +2,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -50,7 +49,6 @@ export default function Activate() {
     })
     activateAccount(data.pin)
   }
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Form {...form}>

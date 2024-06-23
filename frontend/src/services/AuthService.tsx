@@ -1,15 +1,24 @@
 import axios from "axios";
 
+const axiosWithoutAuth = axios.create({
+    baseURL: 'http://localhost:8088/api/v1',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
 const API_URL = "http://localhost:8088/api/v1/auth/";
 export const register = async (fistName: string, 
     lastName: string, 
     email: string,
-    password: string) => {
+    password: string, 
+    role: string = "USER") => {
     const data = JSON.stringify({
         "firstName": fistName,
         "lastName": lastName,
         "email": email,
-        "password": password
+        "password": password,
+        "role": role
         });
 
     let config = {
@@ -21,8 +30,8 @@ export const register = async (fistName: string,
         },
         data : data
         };
-        
-    const response =await axios.request(config); 
+
+    const response =await axiosWithoutAuth.request(config); 
     return response;        
 }
 

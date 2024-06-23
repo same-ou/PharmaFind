@@ -1,4 +1,4 @@
-package com.ensam.pharmafind.dto.responses;
+package com.ensam.pharmafind.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @AllArgsConstructor @NoArgsConstructor
-public class AuthenticationResponse {
-    private UserDTO user;
-    private String token;
+public class AddressDTO {
+    private String street;
+    private String city;
+    private String postalCode;
 }

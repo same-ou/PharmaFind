@@ -3,11 +3,14 @@ package com.ensam.pharmafind.service;
 import com.ensam.pharmafind.dto.requests.PharmacyRequest;
 import com.ensam.pharmafind.dto.responses.PageResponse;
 import com.ensam.pharmafind.dto.responses.PharmacyResponse;
-import com.ensam.pharmafind.entities.Pharmacist;
+import com.ensam.pharmafind.entities.Address;
 import com.ensam.pharmafind.entities.Pharmacy;
-import com.ensam.pharmafind.mappers.PharmacyMapper;
+import com.ensam.pharmafind.entities.User;
+import com.ensam.pharmafind.dto.mappers.PharmacyMapper;
+import com.ensam.pharmafind.repository.AddressRepository;
 import com.ensam.pharmafind.repository.PharmacyRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,12 +24,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PharmacyService {
    private final PharmacyRepository pharmacyRepository;
+   private final AddressRepository addressRepository;
 
+   @Transactional
     public PharmacyResponse savePharmacy(
             PharmacyRequest pharmacyRequest,
             Authentication authentication){
-        Pharmacist user = (Pharmacist) authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
         Pharmacy pharmacy = PharmacyMapper.INSTANCE.toPharmacy(pharmacyRequest);
+        Address address = addressRepository.save(pharmacy.getAddress());
+        pharmacy.setAddress(address);
         pharmacy.setPharmacist(user);
         Pharmacy pharmacy1 =  pharmacyRepository.save(pharmacy);
         return PharmacyMapper.INSTANCE.toPharmacyResponse(pharmacy1);

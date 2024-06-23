@@ -27,7 +27,7 @@ const schema = z.object({
 
 type formFields = z.infer<typeof schema>;
 
-const Login = () => {
+const PharmacistLogin = () => {
   const { loginUser } = useAuth();
   const form = useForm<formFields>({
     resolver: zodResolver(schema)
@@ -157,4 +157,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default PharmacistLogin;

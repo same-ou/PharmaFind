@@ -5,13 +5,12 @@ import { register, login, activate } from "../services/AuthService";
 
 type AuthContextType = {
     token: string | null;
-    registerUser:(fistName: string, lastName: string, email: string, password: string) => void;
+    registerUser:(fistName: string, lastName: string, email: string, password: string, role: string) => void;
     loginUser:(email: string, password: string) => void;
     activateAccount:(token: string) => void;
     logoutUser:() => void;
     isLoggedIn:() => boolean;
 }
-
 type Props = {children: React.ReactNode};
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -35,11 +34,12 @@ export const AuthProvider = ({children}: Props) => {
         setIsReady(true);
     }, [token]);
 
-    const registerUser = async (fistName: string, lastName: string, email: string, password: string) => {
+    const registerUser = async (fistName: string, lastName: string, email: string, password: string, role: string) => {
         await register(fistName,
             lastName, 
             email,
-            password).then((res) => {
+            password,
+            role).then((res) => {
                 if (res.status === 202) {
                     navigate("/activate")
                 }

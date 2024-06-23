@@ -1,4 +1,4 @@
-package com.ensam.pharmafind.mappers;
+package com.ensam.pharmafind.dto.mappers;
 
 import com.ensam.pharmafind.dto.requests.ReviewRequest;
 import com.ensam.pharmafind.dto.responses.ReviewResponse;

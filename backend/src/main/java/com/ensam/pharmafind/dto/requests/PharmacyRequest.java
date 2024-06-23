@@ -1,14 +1,17 @@
 package com.ensam.pharmafind.dto.requests;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.ensam.pharmafind.dto.AddressDTO;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 
-@Data
-@AllArgsConstructor @NoArgsConstructor
+@Builder
+@Getter
+@Setter
 public class PharmacyRequest {
-    private Integer id;
+    @NotEmpty(message = "field name cannot be empty")
     private String name;
+    @NotEmpty
     private String telephone;
+    private AddressDTO address;
 }

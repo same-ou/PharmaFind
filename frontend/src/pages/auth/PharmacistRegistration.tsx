@@ -22,7 +22,7 @@ const schema = z.object({
 
 type formFields = z.infer<typeof schema>;
 
-const Register = () => {
+const PharmacistRegistration = () => {
  const {registerUser} = useAuth();
 
   const  {
@@ -35,9 +35,13 @@ const Register = () => {
 
   const onSubmit: SubmitHandler<formFields> = (data) => {
     console.log(data);
-    registerUser(data.firstName, data.lastName, data.email, data.password);
+    registerUser(data.firstName,
+      data.lastName,
+      data.email,
+      data.password,
+      "PHARMACIST"
+    );
   }
-
 
   return (
     <div className="h-screen flex">
@@ -45,7 +49,7 @@ const Register = () => {
         <div
           className="absolute inset-0 bg-bottom bg-cover bg-no-repeat"
           style={{
-            backgroundImage: `url("https://plus.unsplash.com/premium_photo-1668487826874-ecb21f98bb19?q=80&w=1412&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`,
+            backgroundImage: `url("https://images.unsplash.com/photo-1555633514-abcee6ab92e1?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`,
           }}
         />
         <div className="h-full flex flex-col justify-center items-center text-white">
@@ -157,7 +161,7 @@ const Register = () => {
           </div>
           <div className="flex justify-center mt-1">
             <Link
-              to={"/login"}
+              to={"/pharmacists/login"}
               className="text-teal-500 hover:text-teal-700 text-lg font-semibold no-underline hover:underline cursor-pointer transition ease-in duration-300"
             >
               Already have an account?
@@ -169,4 +173,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default PharmacistRegistration;

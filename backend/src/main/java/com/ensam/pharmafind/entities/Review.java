@@ -16,7 +16,7 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private Client client;
+    private User client;
 
     @ManyToOne
     @JoinColumn(name = "pharmacy_id")

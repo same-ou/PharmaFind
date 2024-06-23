@@ -22,7 +22,6 @@ import java.util.List;
 @Builder @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails, Principal {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +37,9 @@ public class User implements UserDetails, Principal {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @OneToOne(mappedBy = "pharmacist")
+    private Pharmacy pharmacy;
 
     @CreatedDate
     @Column(updatable = false, nullable = false)

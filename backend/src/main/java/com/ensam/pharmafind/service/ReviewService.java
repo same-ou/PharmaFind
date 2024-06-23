@@ -4,7 +4,7 @@ import com.ensam.pharmafind.dto.requests.ReviewRequest;
 import com.ensam.pharmafind.dto.responses.PageResponse;
 import com.ensam.pharmafind.dto.responses.ReviewResponse;
 import com.ensam.pharmafind.entities.Review;
-import com.ensam.pharmafind.mappers.ReviewMapper;
+import com.ensam.pharmafind.dto.mappers.ReviewMapper;
 import com.ensam.pharmafind.repository.ReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

@@ -6,7 +6,7 @@ import com.ensam.pharmafind.dto.responses.PageResponse;
 import com.ensam.pharmafind.dto.responses.ProductResponse;
 import com.ensam.pharmafind.entities.PharmacyProduct;
 import com.ensam.pharmafind.entities.Product;
-import com.ensam.pharmafind.mappers.ProductMapper;
+import com.ensam.pharmafind.dto.mappers.ProductMapper;
 import com.ensam.pharmafind.repository.PharmacyProductRepository;
 import com.ensam.pharmafind.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
