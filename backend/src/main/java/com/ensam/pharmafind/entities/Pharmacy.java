@@ -18,8 +18,11 @@ public class Pharmacy {
     private String telephone;
 
     @OneToOne
+    private Address address;
+
+    @OneToOne
     @JoinColumn(name = "pharmacist_id")
-    private Pharmacist pharmacist;
+    private User pharmacist;
 
     @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PharmacyProduct> pharmacyProducts;

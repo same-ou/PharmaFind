@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name = "Authentication")
 public class AuthenticationController {
-
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
@@ -39,4 +38,6 @@ public class AuthenticationController {
             @RequestParam String token) throws MessagingException {
         return ResponseEntity.ok(authenticationService.activate(token));
     }
+
+
 }

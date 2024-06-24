@@ -7,9 +7,7 @@ import com.ensam.pharmafind.dto.responses.PharmacyResponse;
 import com.ensam.pharmafind.dto.responses.ProductResponse;
 import com.ensam.pharmafind.service.PharmacyService;
 import com.ensam.pharmafind.service.ProductService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,15 +30,15 @@ public class PharmacyController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PharmacyResponse> getPharmacy(
-           @PathVariable Integer id){
+            @PathVariable Integer id){
         return ResponseEntity.ok(pharmacyService.getPharmacy(id));
     }
 
     @PostMapping
     public ResponseEntity<PharmacyResponse> savePharmacy(
-           @Valid @RequestBody PharmacyRequest pharmacyRequest,
-           Authentication authentication
-    ){
+            @RequestBody @Valid  PharmacyRequest pharmacyRequest,
+            Authentication authentication
+            ){
         return ResponseEntity.ok(pharmacyService.savePharmacy(pharmacyRequest, authentication));
     }
 
@@ -52,4 +50,5 @@ public class PharmacyController {
     ){
         return ResponseEntity.ok(productService.getProductsByPharmacy(id, page, size));
     }
+
 }

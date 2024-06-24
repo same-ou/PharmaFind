@@ -11,7 +11,6 @@ import lombok.*;
 @Builder
 public class RegistrationRequest {
     @NotEmpty(message = "First name is required")
-    @NotBlank(message = "First name is required")
     private String firstName;
 
     @NotBlank(message = "Last name is required")
@@ -22,7 +21,6 @@ public class RegistrationRequest {
     @NotBlank(message = "Email is required")
     @NotEmpty(message = "Email is required")
     private String email;
-
 
     @NotBlank(message = "Password is required")
     @NotEmpty(message = "Password is required")
