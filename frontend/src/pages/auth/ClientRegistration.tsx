@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import {useForm, SubmitHandler} from "react-hook-form";
 import {z} from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuth } from "@/context/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
 const schema = z.object({
   firstName: z.string(),
