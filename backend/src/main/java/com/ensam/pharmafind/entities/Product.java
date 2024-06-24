@@ -18,7 +18,7 @@ public class Product {
     private Double price;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductImages> images;
+    private List<Image> images;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PharmacyProduct> pharmacyProducts;
