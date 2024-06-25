@@ -13,11 +13,16 @@ import DashboardProducts from "@/pages/pharmacist/DashboardProducts";
 import DashboardSettings from "@/pages/pharmacist/DashboardSettings";
 import Activate from "@/pages/auth/Activate";
 import Home from "@/pages/Home/Home";
-import Pharmacies from "@/pages/pharmacy/Pharmacies";
 
+
+import Pharmacies from "@/pages/pharmacy/Pharmacies";
 import PharmacyDetails from "@/pages/pharmacy/PharmacyDetails";
 import Products from "@/pages/products/Products";
 import ProductDetails from "@/pages/products/ProductDetails";
+        
+import ProductPage from "@/pages/Product/ProductPage";
+import NewProduct from "@/pages/Product/NewProduct";
+import Product from "@/pages/Product/Product";
 
 export const router = createBrowserRouter([
         {
@@ -46,5 +51,18 @@ export const router = createBrowserRouter([
                 {path: "products/:id", element: <ProductDetails />},
                 {path: "*", element: <NotFound />}
             ]
+        }
+        ,
+        {
+            path: "/product",
+            element: <ProductPage/>,
+        },
+        {
+            path: "/new-product",
+            element: <NewProduct/>,
+        },
+        {
+            path: "/card",
+            element: <Product/>,
         }
 ]);

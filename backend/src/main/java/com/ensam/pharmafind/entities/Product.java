@@ -16,7 +16,9 @@ public class Product {
     private String name;
     private String description;
     private Double price;
-    private String imageUrl;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PharmacyProduct> pharmacyProducts;
