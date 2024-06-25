@@ -1,5 +1,6 @@
 package com.ensam.pharmafind.controllers;
 
+import com.ensam.pharmafind.dto.ImageDTO;
 import com.ensam.pharmafind.dto.requests.ProductRequest;
 import com.ensam.pharmafind.dto.responses.PageResponse;
 import com.ensam.pharmafind.dto.responses.ProductResponse;
@@ -10,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("products")
@@ -33,11 +37,30 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProduct(id));
     }
 
+
     @PostMapping
     public ResponseEntity<ProductResponse> saveProduct(
-            @RequestBody ProductRequest productRequest
-            ) {
-        return ResponseEntity.ok(productService.saveProduct(productRequest));
+            @RequestPart("product") ProductRequest productRequest,
+            @RequestPart("images") MultipartFile[] files
+    ) {
+        if (files.length > 5) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        List<ImageDTO> images = new ArrayList<>();
+        for (MultipartFile file : files) {
+            if (!file.isEmpty()) {
+                try {
+                    String imageUrl = minioService.uploadFile(file);
+                    images.add(new ImageDTO(imageUrl));
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                }
+            }
+        }
+        productRequest.setImages(images);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.saveProduct(productRequest));
     }
 
 

@@ -1,8 +1,10 @@
 package com.ensam.pharmafind.service;
 
+import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.errors.*;
+import io.minio.http.Method;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -35,4 +37,14 @@ public class MinioService {
        );
          return filename;
    }
+
+    public String getFileUrl(String filename) throws IOException, InvalidKeyException, NoSuchAlgorithmException, MinioException {
+        return minioClient.getPresignedObjectUrl(
+                GetPresignedObjectUrlArgs.builder()
+                        .bucket(bucketName)
+                        .object(filename)
+                        .method(Method.GET)
+                        .build()
+        );
+    }
 }
