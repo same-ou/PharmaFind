@@ -1,9 +1,11 @@
 package com.ensam.pharmafind.service;
 
 
+import com.ensam.pharmafind.dto.ImageDTO;
 import com.ensam.pharmafind.dto.requests.ProductRequest;
 import com.ensam.pharmafind.dto.responses.PageResponse;
 import com.ensam.pharmafind.dto.responses.ProductResponse;
+import com.ensam.pharmafind.entities.Image;
 import com.ensam.pharmafind.entities.PharmacyProduct;
 import com.ensam.pharmafind.entities.Product;
 import com.ensam.pharmafind.dto.mappers.ProductMapper;
@@ -16,12 +18,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
     private final PharmacyProductRepository pharmacyProductRepository;
+    private final MinioService minioService;
 
     public PageResponse<ProductResponse> getProducts(int page, int size) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
@@ -61,16 +65,46 @@ public class ProductService {
         );
     }
 
+//    public ProductResponse getProduct(Integer id) {
+//        return productRepository.findById(id)
+//                .map(ProductMapper.INSTANCE::toProductResponse)
+//                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+//    }
+
     public ProductResponse getProduct(Integer id) {
         return productRepository.findById(id)
-                .map(ProductMapper.INSTANCE::toProductResponse)
+                .map(product -> {
+                    ProductResponse response = ProductMapper.INSTANCE.toProductResponse(product);
+                    List<ImageDTO> images = response.getImages().stream().map(image -> {
+                        try {
+                            String imageUrl = minioService.getFileUrl(image.getImageUrl());
+                            return new ImageDTO(imageUrl);
+                        } catch (Exception e) {
+                            // Handle exception appropriately
+                            return new ImageDTO(image.getImageUrl()); // Return the filename as a fallback
+                        }
+                    }).collect(Collectors.toList());
+                    response.setImages(images);
+                    return response;
+                })
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
     }
 
+
+
     public ProductResponse saveProduct(ProductRequest productRequest) {
+        // Convert ProductRequest to Product entity
         Product product = ProductMapper.INSTANCE.toProduct(productRequest);
-        Product product1 = productRepository.save(product);
-        return ProductMapper.INSTANCE.toProductResponse(product1);
+
+        // Set the product for each image
+        for (Image image : product.getImages()) {
+            image.setProduct(product);
+        }
+
+        // Save the product with associated images
+        Product savedProduct = productRepository.save(product);
+
+        return ProductMapper.INSTANCE.toProductResponse(savedProduct);
     }
 
     public void deleteProduct(Integer id) {

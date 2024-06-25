@@ -19,7 +19,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp"
 import { toast } from "@/components/ui/use-toast"
-import { useAuth } from "@/context/useAuth"
+import { useAuth } from "@/hooks/useAuth"
 
 const FormSchema = z.object({
   pin: z.string().min(6, {

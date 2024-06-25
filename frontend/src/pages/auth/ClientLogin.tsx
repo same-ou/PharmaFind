@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form"
 import {z} from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuth } from "@/context/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -141,7 +141,7 @@ const ClientLogin = () => {
                 <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-600">
                   <span>Don't have an account?</span>
                   <Link
-                    to="/register"
+                    to="clients/register"
                     className="text-teal-500 hover:text-teal-700 text-lg font-semibold no-underline hover:underline cursor-pointer transition ease-in duration-300"
                   >
                     Sign up
