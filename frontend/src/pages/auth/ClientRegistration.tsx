@@ -51,16 +51,9 @@ const ClientRegistration = () => {
             backgroundImage: `url("https://plus.unsplash.com/premium_photo-1668487826874-ecb21f98bb19?q=80&w=1412&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`,
           }}
         />
-        <div className="h-full flex flex-col justify-center items-center text-white">
-          <div className="text-5xl font-semibold mb-6">Medicine</div>
-          <div className="text-lg">Let the Power of Beats flow in you</div>
-          <button className="mt-8 bg-teal-500 hover:bg-teal-700 text-white py-2 px-4 rounded">
-            Learn More
-          </button>
-        </div>
       </div>
 
-      <div className="flex items-center justify-center w-2/5">
+      <div className="flex items-center justify-center w-2/5 h-full">
         <form
           onSubmit={handleSubmit(onSubmit)}
           id="register-form"
@@ -160,7 +153,7 @@ const ClientRegistration = () => {
           </div>
           <div className="flex justify-center mt-1">
             <Link
-              to={"clients/login"}
+              to={"/clients/login"}
               className="text-teal-500 hover:text-teal-700 text-lg font-semibold no-underline hover:underline cursor-pointer transition ease-in duration-300"
             >
               Already have an account?

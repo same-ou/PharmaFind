@@ -75,7 +75,7 @@ export const AuthProvider = ({children}: Props) => {
     }
     const activateAccount = async (token: string) => {
         await activate(token).then((res) => {
-            if(res){
+            if(res.status === 200){
                 console.log(res);
                 localStorage.setItem("token", res?.token);
                 setToken(res?.token);
@@ -97,7 +97,7 @@ export const AuthProvider = ({children}: Props) => {
         setUser(null);
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        navigate("/login");
+        navigate("/clients/login");
     }
 
     const isLoggedIn = () => {

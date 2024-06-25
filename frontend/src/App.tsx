@@ -3,6 +3,7 @@ import { AuthProvider } from "./hooks/useAuth";
 import { Toaster } from "./components/ui/toaster";
 import { ThemeProvider } from "./hooks/useTheme";
 import Navbar from "./components/nav/Navbar";
+import Footer from "./components/Footer";
 
 const App: React.FC = () => {
   return (
@@ -11,10 +12,13 @@ const App: React.FC = () => {
       <ThemeProvider
        defaultTheme="light" 
        storageKey="vite-ui-theme">
-      <main className="relative flex flex-col min-h-screen">
+      <div className="relative flex flex-col min-h-screen">
         <Navbar />
-        <Outlet />
-      </main>
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
       <Toaster />
       </ThemeProvider>
     </AuthProvider>

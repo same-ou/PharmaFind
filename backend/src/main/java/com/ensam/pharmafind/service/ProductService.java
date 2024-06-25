@@ -40,6 +40,23 @@ public class ProductService {
         );
     }
 
+    public PageResponse<ProductResponse> getProductsByCategory(Integer categoryId, int page, int size) {
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        Page<Product> products = productRepository.findAllByCategoryId(categoryId, pageable);
+        List<ProductResponse> productResponses = products.stream()
+                .map(ProductMapper.INSTANCE::toProductResponse)
+                .toList();
+        return new PageResponse<>(
+                productResponses,
+                products.getNumber(),
+                products.getSize(),
+                products.getTotalElements(),
+                products.getTotalPages(),
+                products.isFirst(),
+                products.isLast()
+        );
+    }
+
     public PageResponse<ProductResponse> getProductsByPharmacy(Integer pharmacyId, int page, int size) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         Page<PharmacyProduct> pharmacyProducts = pharmacyProductRepository
@@ -58,6 +75,40 @@ public class ProductService {
                 pharmacyProducts.getTotalPages(),
                 pharmacyProducts.isFirst(),
                 pharmacyProducts.isLast()
+        );
+    }
+
+    public PageResponse<ProductResponse> getProductsByCategoryAndName(Integer categoryId, String name, int page, int size) {
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        Page<Product> products = productRepository.findAllByCategoryIdAndNameContaining(categoryId, name, pageable);
+        List<ProductResponse> productResponses = products.stream()
+                .map(ProductMapper.INSTANCE::toProductResponse)
+                .toList();
+        return new PageResponse<>(
+                productResponses,
+                products.getNumber(),
+                products.getSize(),
+                products.getTotalElements(),
+                products.getTotalPages(),
+                products.isFirst(),
+                products.isLast()
+        );
+    }
+
+    public PageResponse<ProductResponse> getProductsByName(String name, int page, int size) {
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        Page<Product> products = productRepository.findAllByNameContaining(name, pageable);
+        List<ProductResponse> productResponses = products.stream()
+                .map(ProductMapper.INSTANCE::toProductResponse)
+                .toList();
+        return new PageResponse<>(
+                productResponses,
+                products.getNumber(),
+                products.getSize(),
+                products.getTotalElements(),
+                products.getTotalPages(),
+                products.isFirst(),
+                products.isLast()
         );
     }
 
