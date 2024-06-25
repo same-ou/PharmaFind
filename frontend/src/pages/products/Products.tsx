@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Search,  } from "lucide-react"
+import { Search} from "lucide-react"
+import MaxWidthWrapper from "@/components/MaxWidthWrapper"
 
 export default function Products() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -84,6 +85,7 @@ export default function Products() {
     }))
   }
   return (
+    <MaxWidthWrapper>
     <div className="flex flex-col md:flex-row gap-8 px-4 md:px-6 py-8">
       <div className="flex-1">
         <div className="flex justify-center mb-8">
@@ -187,5 +189,6 @@ export default function Products() {
         </div>
       </div>
     </div>
+    </MaxWidthWrapper>
   )
 }

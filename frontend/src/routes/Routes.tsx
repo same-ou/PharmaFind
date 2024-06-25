@@ -14,17 +14,17 @@ import DashboardSettings from "@/pages/pharmacist/DashboardSettings";
 import Activate from "@/pages/auth/Activate";
 import Home from "@/pages/Home/Home";
 import Pharmacies from "@/pages/pharmacy/Pharmacies";
+
 import PharmacyDetails from "@/pages/pharmacy/PharmacyDetails";
 import Products from "@/pages/products/Products";
 import ProductDetails from "@/pages/products/ProductDetails";
 
 export const router = createBrowserRouter([
         {
-            path: "/",
             element: <App />,
             errorElement: <Error />,
             children:[
-                {path:"", element:<Home /> },
+                {index:true,element:<Home /> },
                 {path: "clients/login", element: <ClientLogin />},
                 {path:"clients/register", element: <ClientRegistration />},
                 {path: "pharmacists/register", element: <PharmacistRegistration />},
@@ -41,7 +41,7 @@ export const router = createBrowserRouter([
                 },
                 {path: "activate", element: <Activate />},
                 {path: "pharmacies",  element: <Pharmacies />},
-                {path: "pharmacies/:id", element: <PharmacyDetails />},
+                {path: "pharmacies/:id",element: <PharmacyDetails />},
                 {path: "products", element: <Products />},
                 {path: "products/:id", element: <ProductDetails />},
                 {path: "*", element: <NotFound />}

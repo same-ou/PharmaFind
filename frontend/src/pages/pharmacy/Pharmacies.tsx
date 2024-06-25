@@ -1,6 +1,10 @@
+import MaxWidthWrapper from "@/components/MaxWidthWrapper"
+
 function Pharmacies() {
   return (
-    <div>Pharmacies</div>
+    <MaxWidthWrapper>
+      <h1>Pharmacies</h1>
+   </MaxWidthWrapper>
   )
 }
 
