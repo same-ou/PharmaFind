@@ -18,7 +18,7 @@ type MobileNavProps = {
 function MobileNav({user}: MobileNavProps) {
   return (
     <Sheet>
-    <SheetTrigger asChild className="block lg:hidden">
+    <SheetTrigger asChild className="lg:hidden flex justify-center">
       <Button variant="outline" size="icon">
         <Menu className="h-10" />
       </Button>

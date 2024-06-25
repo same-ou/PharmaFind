@@ -14,7 +14,7 @@ function UserNav({user, className}: UserNavProps) {
   return (
     <div className={cn(className)}>
       {user ? null : (
-        <Link to="/sign-in" className={buttonVariants({ variant: "ghost" })}>
+        <Link to="/clients/login" className={buttonVariants({ variant: "ghost" })}>
           Sign In
         </Link>
       )}
@@ -25,7 +25,7 @@ function UserNav({user, className}: UserNavProps) {
       {user ? (
         <UserAccountNav user={user} />
       ) : (
-        <Link to="/sign-up" className={buttonVariants({ variant: "ghost" })}>
+        <Link to="/clients/register" className={buttonVariants({ variant: "ghost" })}>
           Create Account
         </Link>
       )}
