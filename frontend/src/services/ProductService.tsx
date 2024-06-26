@@ -1,14 +1,14 @@
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:8088/api/v1/";
-axios.defaults.headers.post["Content-Type"] = "application/json";
 
-interface Product {
-  id: number;
+// Define the Product interface
+export interface Product {
+  id? : number;
   name: string;
   description: string;
   price: number;
-  imagesUrl: string[];
+  imageUrls?: string[];
 }
 
 interface ErrorResponse {
@@ -30,4 +30,26 @@ export const getProduct = async (id: number): Promise<Product | ErrorResponse> =
   }
 };
 
+// this function will save a new product to the API. It takes a Product object as input and returns a Promise that resolves to the saved Product object if successful, or an ErrorResponse object if an error occurs.
 
+export const saveProduct = async (product: Product, images: File[] | null): Promise<Product> => {
+  if (images && images.length > 5) {
+      throw new Error('You can upload a maximum of 5 images.');
+  }
+
+  const formData = new FormData();
+  formData.append('product', new Blob([JSON.stringify(product)], { type: 'application/json' }));
+  if (images) {
+      Array.from(images).forEach(file => {
+          formData.append('images', file);
+      });
+  }
+
+  const response = await axios.post('/products', formData, {
+      headers: {
+          'Content-Type': 'multipart/form-data'
+      }
+  });
+
+  return response.data;
+};

@@ -1,11 +1,14 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { FaBoxOpen } from 'react-icons/fa';
+import { saveProduct, Product } from '@/services/ProductService'; // Import the saveProduct function
 
 const AddProduct: React.FC = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
   const [images, setImages] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -45,13 +48,20 @@ const AddProduct: React.FC = () => {
     setImages(newImages);
   };
 
-  const handleSubmit = () => {
-    // Add your submit logic here
-    console.log({
-      name,
-      description,
-      images,
-    });
+  const handleSubmit = async () => {
+    try {
+      if (!name || !price) {
+        setErrorMessage('Name and price are required.');
+        return;
+      }
+      const product: Product = { name : name, description: description, price: parseFloat(price)};
+      const savedProduct = await saveProduct(product, images); // Call saveProduct function with product and images
+      console.log('Product saved successfully:', savedProduct);
+      // Reset form fields and state if needed
+    } catch (error:any) {
+      console.error('Error saving product:', error);
+      setErrorMessage(error.message || 'Error saving product. Please try again.');
+    }
   };
 
   return (
@@ -129,6 +139,16 @@ const AddProduct: React.FC = () => {
             </div>
           )}
         </div>
+        <label htmlFor="productName" className="block text-sm font-medium text-gray-700 mb-1">Price*</label>
+          <input
+            id="productName"
+            type="text"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            placeholder="Give your product a price."
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+          />
+
         <div className="flex space-x-4">
           <button
             type="button"
@@ -144,6 +164,7 @@ const AddProduct: React.FC = () => {
             Save as draft
           </button>
         </div>
+        {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
       </form>
     </div>
   );

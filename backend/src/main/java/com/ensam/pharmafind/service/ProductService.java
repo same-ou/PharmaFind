@@ -65,11 +65,7 @@ public class ProductService {
         );
     }
 
-//    public ProductResponse getProduct(Integer id) {
-//        return productRepository.findById(id)
-//                .map(ProductMapper.INSTANCE::toProductResponse)
-//                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
-//    }
+
 
     public ProductResponse getProduct(Integer id) {
         return productRepository.findById(id)

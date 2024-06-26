@@ -19,41 +19,43 @@ import NewProduct from "@/pages/Product/NewProduct";
 import Product from "@/pages/Product/Product";
 
 export const router = createBrowserRouter([
-        {
-            path: "/",
-            element: <App />,
-            errorElement: <Error />,
-            children:[
-                {path:"", element:<Home /> },
-                {path: "clients/login", element: <ClientLogin />},
-                {path:"clients/register", element: <ClientRegistration />},
-                {path: "pharmacists/register", element: <PharmacistRegistration />},
-                {path: "pharmacists/login", element: <PharmacistLogin />},
-                {path: "pharmacists/register-pharmacy", element: <RegisterPharmacy />},
-                {
-                    path: "pharmacists/dashboard",
-                    element: <PharmacistDashboard />,
-                    children:[
-                        {path: "", index:true , element:<DashboardProducts/> },
-                        {path: "orders", element:<DashboardOrders/>},
-                        {path: "settings", element:<DashboardSettings/>}
-                    ]
-                },
-                {path: "activate", element: <Activate />},
-                {path: "*", element: <NotFound />}
-            ]
-        }
-        ,
-        {
-            path: "/product",
-            element: <ProductPage/>,
-        },
-        {
-            path: "/new-product",
-            element: <NewProduct/>,
-        },
-        {
-            path: "/card",
-            element: <Product/>,
-        }
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <Error />,
+    children: [
+      { path: "", element: <Home /> },
+      { path: "clients/login", element: <ClientLogin /> },
+      { path: "clients/register", element: <ClientRegistration /> },
+      { path: "pharmacists/register", element: <PharmacistRegistration /> },
+      { path: "pharmacists/login", element: <PharmacistLogin /> },
+      { path: "pharmacists/register-pharmacy", element: <RegisterPharmacy /> },
+      {
+        path: "pharmacists/dashboard",
+        element: <PharmacistDashboard />,
+        children: [
+          { path: "", index: true, element: <DashboardProducts /> },
+          { path: "orders", element: <DashboardOrders /> },
+          { path: "settings", element: <DashboardSettings /> },
+        ],
+      },
+      { path: "activate", element: <Activate /> },
+      { path: "*", element: <NotFound /> },
+    ],
+  },
+  {
+    path: "/product/:id",
+    element: <ProductPage />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/new-product",
+    element: <NewProduct />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/card",
+    element: <Product />,
+    errorElement: <Error />,
+  },
 ]);
