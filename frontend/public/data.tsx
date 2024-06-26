@@ -1,15 +1,72 @@
-export const products = [
-    {
-      image: "https://i.ibb.co/0ykr0SS/image-product-1.jpg",
-    },
-    {
-      image: "https://i.ibb.co/YhH95dy/image-product-2.jpg",
-    },
-    {
-      image: "https://i.ibb.co/ts3md2G/image-product-3.jpg",
-    },
-    {
-      image: "https://i.ibb.co/Nm66XFF/image-product-4.jpg",
-    },
-  ];
-  
+export const data = [
+  {
+    id: 1,
+    image: 'https://via.placeholder.com/300',
+    title: 'Product 1',
+    description: 'Description for Product 1',
+    price: 10.0,
+  },
+  {
+    id: 2,
+    image: 'https://via.placeholder.com/150',
+    title: 'Product 2',
+    description: 'Description for Product 2',
+    price: 20.0,
+  },
+  {
+    id: 3,
+    image: 'https://via.placeholder.com/150',
+    title: 'Product 3',
+    description: 'Description for Product 3',
+    price: 30.0,
+  },
+  {
+    id: 4,
+    image: 'https://via.placeholder.com/150',
+    title: 'Product 4',
+    description: 'Description for Product 4',
+    price: 40.0,
+  },
+  {
+    id: 5,
+    image: 'https://via.placeholder.com/150',
+    title: 'Product 5',
+    description: 'Description for Product 5',
+    price: 50.0,
+  },
+  {
+    id: 1,
+    image: 'https://via.placeholder.com/300',
+    title: 'Product 1',
+    description: 'Description for Product 1',
+    price: 10.0,
+  },
+  {
+    id: 2,
+    image: 'https://via.placeholder.com/150',
+    title: 'Product 2',
+    description: 'Description for Product 2',
+    price: 20.0,
+  },
+  {
+    id: 3,
+    image: 'https://via.placeholder.com/150',
+    title: 'Product 3',
+    description: 'Description for Product 3',
+    price: 30.0,
+  },
+  {
+    id: 4,
+    image: 'https://via.placeholder.com/150',
+    title: 'Product 4',
+    description: 'Description for Product 4',
+    price: 40.0,
+  },
+  {
+    id: 5,
+    image: 'https://via.placeholder.com/150',
+    title: 'Product 5',
+    description: 'Description for Product 5',
+    price: 50.0,
+  },
+];
