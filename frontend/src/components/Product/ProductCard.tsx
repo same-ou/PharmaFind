@@ -2,6 +2,7 @@ import React from 'react';
 import { FaEye } from 'react-icons/fa';
 
 interface ProductCardProps {
+  id: number;
   image: string;
   title: string;
   description: string;
@@ -9,6 +10,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
+  id,
   image,
   title,
   description,
