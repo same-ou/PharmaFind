@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ProductCard from './ProductCard';
+import ProductCard from '@/components/Product/ProductCard';
 import  { data } from '../../../public/data';
 
 // import { getProducts } from '@/services/ProductService';  // Adjust the path based on your project structure

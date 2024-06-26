@@ -1,3 +1,13 @@
+// implement methods to : 
+// list all products
+// add a product
+// update a product
+// delete a product
+// list products by category
+// list products by price range
+// list products by search term
+// list products in stock
+
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:8088/api/v1/";

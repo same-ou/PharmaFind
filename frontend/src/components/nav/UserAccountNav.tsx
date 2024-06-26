@@ -26,9 +26,11 @@ const UserAccountNav = ({ user }: { user: UserProfile }) => {
             </div>
           </div>
           <DropdownMenuSeparator />
+          {
+            user.role.name === 'PHARMACIST' &&
           <DropdownMenuItem asChild>
-            <Link to="/sell">Seller Dashboard</Link>
-          </DropdownMenuItem>
+            <Link to="/pharmacists/dashboard">Seller Dashboard</Link>
+          </DropdownMenuItem> }
           <DropdownMenuItem onClick={logoutUser} className="cursor-pointer">
             Log Out
           </DropdownMenuItem>
