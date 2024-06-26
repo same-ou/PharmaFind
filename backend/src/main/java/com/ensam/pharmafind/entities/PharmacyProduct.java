@@ -20,4 +20,5 @@ public class PharmacyProduct {
     private Product product;
 
     private int quantity;
+    private double price;
 }

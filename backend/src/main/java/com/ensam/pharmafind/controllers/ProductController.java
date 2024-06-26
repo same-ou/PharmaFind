@@ -30,13 +30,6 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProducts(page, size));
     }
 
-//    @GetMapping("{id}")
-//    public ResponseEntity<ProductResponse> getProduct(
-//            @RequestParam(name = "id") Integer id
-//    ) {
-//        return ResponseEntity.ok(productService.getProduct(id));
-//    }
-
     @GetMapping("{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable Integer id) {
         return ResponseEntity.ok(productService.getProduct(id));
@@ -68,7 +61,6 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.saveProduct(productRequest));
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(
             @PathVariable Integer id) {
@@ -82,15 +74,4 @@ public class ProductController {
     ) {
         return ResponseEntity.ok(productService.saveProduct(productRequest));
     }
-
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadProductImage(@RequestParam("file") MultipartFile file) {
-        try {
-            String imageUrl = minioService.uploadFile(file);
-            return ResponseEntity.ok(imageUrl);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image");
-        }
-    }
-
 }

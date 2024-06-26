@@ -25,8 +25,10 @@ public class Pharmacy {
     private User pharmacist;
 
     @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PharmacyProduct> pharmacyProducts;
+    private List<Image> images;
 
+    @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PharmacyProduct> pharmacyProducts;
     @OneToMany(mappedBy = "pharmacy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 }

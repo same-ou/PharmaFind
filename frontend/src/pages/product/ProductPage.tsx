@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProductPreview from "../../components/Product/ProductPreview";
 import { getProduct } from "../../services/ProductService";
 import { useParams } from "react-router-dom";
-// import {prwoducts} from "../../../public/data"
+
 
 interface Product {
   id: number;

@@ -20,9 +20,7 @@ import java.util.UUID;
 public class MinioService {
 
     private final MinioClient minioClient;
-
-    @Value("${application.storage.minio.bucket-name}")
-    private String bucketName;
+    final private String bucketName;
 
    public String uploadFile(MultipartFile file) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
        String filename = UUID.randomUUID().toString();

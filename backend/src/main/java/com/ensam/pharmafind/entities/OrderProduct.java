@@ -7,6 +7,7 @@ public class OrderProduct {
     @EmbeddedId
     private OrderProductId id;
     private int quantity;
+    private Double price;
 
     @ManyToOne
     @MapsId("orderId")

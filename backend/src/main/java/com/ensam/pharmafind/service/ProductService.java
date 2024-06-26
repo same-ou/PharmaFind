@@ -2,20 +2,23 @@ package com.ensam.pharmafind.service;
 
 
 import com.ensam.pharmafind.dto.ImageDTO;
+import com.ensam.pharmafind.dto.ProductCreateDTO;
 import com.ensam.pharmafind.dto.requests.ProductRequest;
 import com.ensam.pharmafind.dto.responses.PageResponse;
 import com.ensam.pharmafind.dto.responses.ProductResponse;
-import com.ensam.pharmafind.entities.Image;
-import com.ensam.pharmafind.entities.PharmacyProduct;
-import com.ensam.pharmafind.entities.Product;
+import com.ensam.pharmafind.entities.*;
 import com.ensam.pharmafind.dto.mappers.ProductMapper;
 import com.ensam.pharmafind.repository.PharmacyProductRepository;
+import com.ensam.pharmafind.repository.PharmacyRepository;
 import com.ensam.pharmafind.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,27 +29,11 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final PharmacyProductRepository pharmacyProductRepository;
     private final MinioService minioService;
+    private final PharmacyRepository pharmacyRepository;
 
     public PageResponse<ProductResponse> getProducts(int page, int size) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         Page<Product> products = productRepository.findAll(pageable);
-        List<ProductResponse> productResponses = products.stream()
-                .map(ProductMapper.INSTANCE::toProductResponse)
-                .toList();
-        return new PageResponse<>(
-                productResponses,
-                products.getNumber(),
-                products.getSize(),
-                products.getTotalElements(),
-                products.getTotalPages(),
-                products.isFirst(),
-                products.isLast()
-        );
-    }
-
-    public PageResponse<ProductResponse> getProductsByCategory(Integer categoryId, int page, int size) {
-        Pageable pageable = Pageable.ofSize(size).withPage(page);
-        Page<Product> products = productRepository.findAllByCategoryId(categoryId, pageable);
         List<ProductResponse> productResponses = products.stream()
                 .map(ProductMapper.INSTANCE::toProductResponse)
                 .toList();
@@ -79,23 +66,6 @@ public class ProductService {
                 pharmacyProducts.getTotalPages(),
                 pharmacyProducts.isFirst(),
                 pharmacyProducts.isLast()
-        );
-    }
-  
-    public PageResponse<ProductResponse> getProductsByCategoryAndName(Integer categoryId, String name, int page, int size) {
-        Pageable pageable = Pageable.ofSize(size).withPage(page);
-        Page<Product> products = productRepository.findAllByCategoryIdAndNameContaining(categoryId, name, pageable);
-        List<ProductResponse> productResponses = products.stream()
-                .map(ProductMapper.INSTANCE::toProductResponse)
-                .toList();
-        return new PageResponse<>(
-                productResponses,
-                products.getNumber(),
-                products.getSize(),
-                products.getTotalElements(),
-                products.getTotalPages(),
-                products.isFirst(),
-                products.isLast()
         );
     }
 
@@ -135,8 +105,6 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
     }
 
-
-
     public ProductResponse saveProduct(ProductRequest productRequest) {
         // Convert ProductRequest to Product entity
         Product product = ProductMapper.INSTANCE.toProduct(productRequest);
@@ -145,14 +113,52 @@ public class ProductService {
         for (Image image : product.getImages()) {
             image.setProduct(product);
         }
-
         // Save the product with associated images
+        Product savedProduct = productRepository.save(product);
+        return ProductMapper.INSTANCE.toProductResponse(savedProduct);
+    }
+
+    @Transactional
+    public ProductResponse addProductToPharmacy(Integer pharmacyId, ProductCreateDTO productCreateDTO, List<MultipartFile> imageFiles) {
+        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyId)
+                .orElseThrow(() -> new EntityNotFoundException("Pharmacy not found"));
+
+        Product product = new Product();
+        product.setName(productCreateDTO.getName());
+        product.setDescription(productCreateDTO.getDescription());
+
+        List<Image> images = imageFiles.stream()
+                .map(this::uploadImage)
+                .collect(Collectors.toList());
+        product.setImages(images);
+
+        PharmacyProduct pharmacyProduct = new PharmacyProduct();
+        pharmacyProduct.setProduct(product);
+        pharmacyProduct.setPharmacy(pharmacy);
+        pharmacyProduct.setQuantity(productCreateDTO.getQuantity());
+        pharmacyProduct.setPrice(productCreateDTO.getPrice());
+
+        product.getPharmacyProducts().add(pharmacyProduct);
+        pharmacy.getPharmacyProducts().add(pharmacyProduct);
+
         Product savedProduct = productRepository.save(product);
 
         return ProductMapper.INSTANCE.toProductResponse(savedProduct);
     }
 
+    private Image uploadImage(MultipartFile image) {
+        try {
+            String imageUrl = minioService.uploadFile(image);
+            Image imageEntity = new Image();
+            imageEntity.setImageUrl(imageUrl);
+            return imageEntity;
+        } catch (Exception e) {
+            throw new RuntimeException("Error uploading image", e);
+        }
+    }
+
     public void deleteProduct(Integer id) {
         productRepository.deleteById(id);
     }
+
 }

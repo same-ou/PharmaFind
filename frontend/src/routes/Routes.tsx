@@ -20,9 +20,9 @@ import PharmacyDetails from "@/pages/pharmacy/PharmacyDetails";
 import Products from "@/pages/products/Products";
 import ProductDetails from "@/pages/products/ProductDetails";
         
-import ProductPage from "@/pages/Product/ProductPage";
-import NewProduct from "@/pages/Product/NewProduct";
-import Product from "@/pages/Product/Product";
+import ProductPage from "@/pages/product/ProductPage";
+import NewProduct from "@/pages/product/NewProduct";
+import Product from "@/pages/product/Product";
 
 export const router = createBrowserRouter([
         {
