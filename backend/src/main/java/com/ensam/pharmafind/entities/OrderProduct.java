@@ -1,8 +1,13 @@
 package com.ensam.pharmafind.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class OrderProduct {
     @EmbeddedId
     private OrderProductId id;
@@ -18,4 +23,8 @@ public class OrderProduct {
     @MapsId("productId")
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "pharmacy_id")
+    private Pharmacy pharmacy;
 }
