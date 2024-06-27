@@ -23,6 +23,8 @@ import ProductDetails from "@/pages/products/ProductDetails";
 import ProductPage from "@/pages/product/ProductPage";
 import NewProduct from "@/pages/product/NewProduct";
 import Product from "@/pages/product/Product";
+     
+
 
 export const router = createBrowserRouter([
         {
@@ -41,28 +43,16 @@ export const router = createBrowserRouter([
                     children:[
                         {path: "", index:true , element:<DashboardProducts/> },
                         {path: "orders", element:<DashboardOrders/>},
-                        {path: "settings", element:<DashboardSettings/>}
+                        {path: "settings", element:<DashboardSettings/>},
+                        {path: "addProduct", element: <NewProduct />}
                     ]
                 },
                 {path: "activate", element: <Activate />},
                 {path: "pharmacies",  element: <Pharmacies />},
                 {path: "pharmacies/:id",element: <PharmacyDetails />},
                 {path: "products", element: <Products />},
-                {path: "products/:id", element: <ProductDetails />},
+                {path: "products/:id", element: <ProductPage />},
                 {path: "*", element: <NotFound />}
             ]
-        }
-        ,
-        {
-            path: "/product",
-            element: <ProductPage/>,
-        },
-        {
-            path: "/new-product",
-            element: <NewProduct/>,
-        },
-        {
-            path: "/card",
-            element: <Product/>,
         }
 ]);

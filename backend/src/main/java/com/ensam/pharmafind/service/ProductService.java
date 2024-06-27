@@ -8,6 +8,7 @@ import com.ensam.pharmafind.dto.responses.PageResponse;
 import com.ensam.pharmafind.dto.responses.ProductResponse;
 import com.ensam.pharmafind.entities.*;
 import com.ensam.pharmafind.dto.mappers.ProductMapper;
+import com.ensam.pharmafind.repository.CategoryRepository;
 import com.ensam.pharmafind.repository.PharmacyProductRepository;
 import com.ensam.pharmafind.repository.PharmacyRepository;
 import com.ensam.pharmafind.repository.ProductRepository;
@@ -29,6 +30,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final PharmacyProductRepository pharmacyProductRepository;
     private final MinioService minioService;
+    private final CategoryRepository categoryRepository;
     private final PharmacyRepository pharmacyRepository;
 
     public PageResponse<ProductResponse> getProducts(int page, int size) {
@@ -69,6 +71,7 @@ public class ProductService {
         );
     }
 
+
     public PageResponse<ProductResponse> getProductsByName(String name, int page, int size) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         Page<Product> products = productRepository.findAllByNameContaining(name, pageable);
@@ -105,15 +108,37 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
     }
 
+
     public ProductResponse saveProduct(ProductRequest productRequest) {
         // Convert ProductRequest to Product entity
         Product product = ProductMapper.INSTANCE.toProduct(productRequest);
 
-        // Set the product for each image
         for (Image image : product.getImages()) {
             image.setProduct(product);
         }
-        // Save the product with associated images
+
+        if (productRequest.getCategories() != null && !productRequest.getCategories().isEmpty()) {
+            List<Category> categories = categoryRepository.findAllById(productRequest.getCategories());
+
+            for (Category category : categories) {
+                category.getProducts().add(product);
+            }
+
+            product.setCategories(categories);
+        }
+
+        // Set the pharmacy and create the pharmacy product association
+        Pharmacy pharmacy = pharmacyRepository.findById(productRequest.getPharmacyId())
+                .orElseThrow(() -> new EntityNotFoundException("Pharmacy not found"));
+
+        PharmacyProduct pharmacyProduct = new PharmacyProduct();
+        PharmacyProductId pharmacyProductId = new PharmacyProductId(product.getId(), pharmacy.getId());
+        pharmacyProduct.setId(pharmacyProductId);
+        pharmacyProduct.setPharmacy(pharmacy);
+        pharmacyProduct.setProduct(product);
+        pharmacyProduct.setQuantity(productRequest.getQuantity());
+        product.setPharmacyProducts(List.of(pharmacyProduct));
+
         Product savedProduct = productRepository.save(product);
         return ProductMapper.INSTANCE.toProductResponse(savedProduct);
     }
@@ -146,16 +171,6 @@ public class ProductService {
         return ProductMapper.INSTANCE.toProductResponse(savedProduct);
     }
 
-    private Image uploadImage(MultipartFile image) {
-        try {
-            String imageUrl = minioService.uploadFile(image);
-            Image imageEntity = new Image();
-            imageEntity.setImageUrl(imageUrl);
-            return imageEntity;
-        } catch (Exception e) {
-            throw new RuntimeException("Error uploading image", e);
-        }
-    }
 
     public void deleteProduct(Integer id) {
         productRepository.deleteById(id);

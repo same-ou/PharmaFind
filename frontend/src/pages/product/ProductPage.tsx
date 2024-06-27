@@ -3,13 +3,16 @@ import ProductPreview from "../../components/Product/ProductPreview";
 import { getProduct } from "../../services/ProductService";
 import { useParams } from "react-router-dom";
 
+interface Image {
+  imageUrl: string;
+}
 
 interface Product {
   id: number;
   name: string;
   description: string;
   price: number;
-  imagesUrl: string[];
+  images: Image[];
 }
 
 interface ErrorResponse {
@@ -24,6 +27,7 @@ const ProductPage: React.FC = () => {
     const fetchProduct = async () => {
       const response = await getProduct(Number(id));
       setProduct(response);
+      console.log(response);
     };
 
     fetchProduct();
@@ -33,25 +37,21 @@ const ProductPage: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  if ('message' in product) {
+  if ("message" in product) {
     return <div>Error: {product.message}</div>;
   }
 
   return (
     <div>
-      {/* <ProductPreview
-        pharmacy_name="Sneaker Company"
-        product_name={"Fall Limited Edition Sneakers"}
-        description={"These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer"}
-        price={125.00}
-        data={products.map((image, index) => ({ id: index, image: image.image }))}
-      /> */}
       <ProductPreview
         pharmacy_name="Sneaker Company"
         product_name={product.name}
         description={product.description}
         price={product.price}
-        data={product.imagesUrl.map((url, index) => ({ id: index, image: url }))}
+        data={product.images.map((image, index) => ({
+          id: index,
+          image: image.imageUrl,
+        }))}
       />
     </div>
   );
