@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
-import { FaBoxOpen } from 'react-icons/fa';
-import { saveProduct, Product } from '@/services/ProductService'; // Import the saveProduct function
+import React, { useState } from "react";
+import { FaBoxOpen } from "react-icons/fa";
+import Select from "react-select"; // Import react-select
+import { saveProduct, Product } from "@/services/ProductService"; // Import the saveProduct function
+
+const categoriesOptions = [
+  { value: 1, label: "Category 1" },
+  { value: 2, label: "Category 2" },
+  { value: 3, label: "Category 3" },
+  { value: 4, label: "Category 4" },
+  { value: 5, label: "Category 5" },
+];
 
 const AddProduct: React.FC = () => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState(1);
   const [images, setImages] = useState<File[]>([]);
+  const [categories, setCategories] = useState<number[]>([]);
   const [isDragging, setIsDragging] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -16,7 +27,7 @@ const AddProduct: React.FC = () => {
       if (images.length + newImages.length <= 5) {
         setImages([...images, ...newImages]);
       } else {
-        alert('You can only upload a maximum of 5 images.');
+        alert("You can only upload a maximum of 5 images.");
       }
     }
   };
@@ -29,7 +40,7 @@ const AddProduct: React.FC = () => {
       if (images.length + newImages.length <= 5) {
         setImages([...images, ...newImages]);
       } else {
-        alert('You can only upload a maximum of 5 images.');
+        alert("You can only upload a maximum of 5 images.");
       }
     }
   };
@@ -51,21 +62,35 @@ const AddProduct: React.FC = () => {
   const handleSubmit = async () => {
     try {
       if (!name || !price) {
-        setErrorMessage('Name and price are required.');
+        setErrorMessage("Name and price are required.");
         return;
       }
-      const product: Product = { name : name, description: description, price: parseFloat(price)};
+      const product: Product = {
+        name,
+        description,
+        price: parseFloat(price),
+        categories: categories,
+        quantity: quantity,
+        pharmacyId: 1 
+      };
       const savedProduct = await saveProduct(product, images); // Call saveProduct function with product and images
-      console.log('Product saved successfully:', savedProduct);
+      console.log("Product saved successfully:", savedProduct);
+
       // Reset form fields and state if needed
-    } catch (error:any) {
-      console.error('Error saving product:', error);
-      setErrorMessage(error.message || 'Error saving product. Please try again.');
+    } catch (error: any) {
+      console.error("Error saving product:", error);
+      setErrorMessage(
+        error.message || "Error saving product. Please try again."
+      );
     }
   };
 
+  const handleCategoryChange = (selectedOptions: any) => {
+    setCategories(selectedOptions.map((option: any) => option.value));
+  };
+
   return (
-    <div className="max-w-2xl mx-auto p-8 bg-white shadow-md rounded-md mt-5 mb-5">
+    <div className="w-full mx-auto p-8 bg-white shadow-md rounded-md ">
       <div className="flex items-center mb-6">
         <FaBoxOpen className="text-teal-500 text-3xl mr-3" />
         <h2 className="text-3xl font-semibold">Add Product</h2>
@@ -73,8 +98,12 @@ const AddProduct: React.FC = () => {
       <p className="mb-8 text-gray-600">Add a new product to your store.</p>
       <form>
         <div className="mb-8">
-          <h3 className="text-xl font-medium mb-3">General</h3>
-          <label htmlFor="productName" className="block text-sm font-medium text-gray-700 mb-1">Name*</label>
+          <label
+            htmlFor="productName"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Name*
+          </label>
           <input
             id="productName"
             type="text"
@@ -85,7 +114,12 @@ const AddProduct: React.FC = () => {
           />
         </div>
         <div className="mb-8">
-          <label htmlFor="productDescription" className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+          <label
+            htmlFor="productDescription"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Description
+          </label>
           <textarea
             id="productDescription"
             value={description}
@@ -95,27 +129,52 @@ const AddProduct: React.FC = () => {
           />
         </div>
         <div className="mb-8">
-          <label htmlFor="productImages" className="block text-sm font-medium text-gray-700 mb-1">Images</label>
+          <label
+            htmlFor="productImages"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Images
+          </label>
           <div
-            className={`mt-1 flex justify-center p-6 border-2 border-dashed ${isDragging ? 'border-teal-500' : 'border-gray-300'} rounded-md`}
+            className={`mt-1 flex justify-center p-6 border-2 border-dashed ${
+              isDragging ? "border-teal-500" : "border-gray-300"
+            } rounded-md`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
             <div className="text-center">
-              <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 48 48"
+                aria-hidden="true"
+              >
                 <path d="M8 16v24h32V16H8zm-2-2h36a2 2 0 012 2v28a2 2 0 01-2 2H6a2 2 0 01-2-2V16a2 2 0 012-2z" />
                 <path d="M4 8h40v2H4z" />
                 <path d="M36 0H12a4 4 0 00-4 4v6h32V4a4 4 0 00-4-4zM8 4a4 4 0 014-4h24a4 4 0 014 4v6H8V4z" />
               </svg>
               <div className="flex text-sm text-gray-600 mt-2">
-                <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-teal-600 hover:text-teal-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-teal-500">
+                <label
+                  htmlFor="file-upload"
+                  className="relative cursor-pointer bg-white rounded-md font-medium text-teal-600 hover:text-teal-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-teal-500"
+                >
                   <span>Click to browse</span>
-                  <input id="file-upload" name="file-upload" type="file" multiple className="sr-only" onChange={handleImageUpload} />
+                  <input
+                    id="file-upload"
+                    name="file-upload"
+                    type="file"
+                    multiple
+                    className="sr-only"
+                    onChange={handleImageUpload}
+                  />
                 </label>
                 <p className="pl-1">or drag and drop</p>
               </div>
-              <p className="text-xs text-gray-500 mt-1">PNG, JPG, GIF up to 10MB</p>
+              <p className="text-xs text-gray-500 mt-1">
+                PNG, JPG, GIF up to 10MB
+              </p>
             </div>
           </div>
           {images.length > 0 && (
@@ -139,16 +198,61 @@ const AddProduct: React.FC = () => {
             </div>
           )}
         </div>
-        <label htmlFor="productName" className="block text-sm font-medium text-gray-700 mb-1">Price*</label>
+        <div className="mb-8">
+          <label
+            htmlFor="productCategory"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Categories*
+          </label>
+          <Select
+            id="productCategory"
+            isMulti
+            options={categoriesOptions}
+            value={categoriesOptions.filter((option) =>
+              categories.includes(option.value)
+            )}
+            onChange={handleCategoryChange}
+            className="basic-multi-select "
+            classNamePrefix="select"
+          />
+        </div>
+        <div className="mb-8">
+          <label
+            htmlFor="productQuantity"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Quantity*
+          </label>
           <input
-            id="productName"
+            id="productQuantity"
+            type="number"
+            value={quantity}
+            onChange={(e) => {
+              quantity > 0
+                ? setQuantity(parseInt(e.target.value))
+                : setErrorMessage("Quantity must be greater than 0");
+            }}
+            placeholder="Enter the quantity of the product."
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+          />
+        </div>
+        <div className="mb-8">
+          <label
+            htmlFor="productPrice"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Price*
+          </label>
+          <input
+            id="productPrice"
             type="text"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             placeholder="Give your product a price."
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
           />
-
+        </div>
         <div className="flex space-x-4">
           <button
             type="button"

@@ -18,7 +18,10 @@ export interface Product {
   name: string;
   description: string;
   price: number;
+  quantity: number;
   imageUrls?: string[];
+  categories?: number[];
+  pharmacyId: number;
 }
 
 interface ErrorResponse {

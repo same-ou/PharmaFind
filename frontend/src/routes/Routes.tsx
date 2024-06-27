@@ -38,7 +38,8 @@ export const router = createBrowserRouter([
                     children:[
                         {path: "", index:true , element:<DashboardProducts/> },
                         {path: "orders", element:<DashboardOrders/>},
-                        {path: "settings", element:<DashboardSettings/>}
+                        {path: "settings", element:<DashboardSettings/>},
+                        {path: "addProduct", element: <NewProduct />}
                     ]
                 },
                 {path: "activate", element: <Activate />},
@@ -46,7 +47,6 @@ export const router = createBrowserRouter([
                 {path: "pharmacies/:id",element: <PharmacyDetails />},
                 {path: "products", element: <Products />},
                 {path: "products/:id", element: <ProductPage />},
-                {path: "/addProduct", element: <NewProduct />},
                 {path: "*", element: <NotFound />}
             ]
         }

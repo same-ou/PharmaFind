@@ -13,5 +13,8 @@ public class ProductRequest {
     private String name;
     private String description;
     private Double price;
+    private Integer quantity;
+    private Integer pharmacyId;
     private List<ImageDTO> images;
+    private List<Integer> categories;
 }
