@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-export default function Component() {
+export default function Blog() {
   return (
     <div className="bg-background text-foreground">
       <header className="bg-primary text-primary-foreground py-6 md:py-12">
@@ -104,7 +104,7 @@ export default function Component() {
   )
 }
 
-function ArrowRightIcon(props) {
+function ArrowRightIcon(props: any) {
   return (
     <svg
       {...props}
@@ -125,7 +125,7 @@ function ArrowRightIcon(props) {
 }
 
 
-function CalendarIcon(props) {
+function CalendarIcon(props: any) {
   return (
     <svg
       {...props}

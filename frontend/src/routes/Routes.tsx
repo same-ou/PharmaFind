@@ -10,14 +10,24 @@ import Error from "@/pages/Error";
 import PharmacistDashboard from "@/pages/pharmacist/PharmacistDashboard";
 import DashboardOrders from "@/pages/pharmacist/DashboardOrders";
 import DashboardProducts from "@/pages/pharmacist/DashboardProducts";
+import {loader as dashboardProductsLoader} from "@/pages/pharmacist/DashboardProducts";
 import DashboardSettings from "@/pages/pharmacist/DashboardSettings";
 import Activate from "@/pages/auth/Activate";
 import Home from "@/pages/Home/Home";
 import Pharmacies from "@/pages/pharmacy/Pharmacies";
+import { loader as pharmaciesLoader } from "@/pages/pharmacy/Pharmacies";
+
 import PharmacyDetails from "@/pages/pharmacy/PharmacyDetails";
+import { loader as pharmacyDetailsLoader } from "@/pages/pharmacy/PharmacyDetails";
+
 import Products from "@/pages/product/Products";
-import ProductPage from "@/pages/product/ProductPage";
+import { loader as productsLoader } from "@/pages/product/Products";
+
+import ProductDetails from "@/pages/product/ProductDetails";
+import { loader as productDetailsLoader } from "@/pages/product/ProductDetails";
+
 import NewProduct from "@/pages/product/NewProduct";
+import Checkout from "@/pages/checkout/Checkout";
 import Blog from "@/pages/blog/Blog";
 
 
@@ -36,17 +46,18 @@ export const router = createBrowserRouter([
                     path: "pharmacists/dashboard",
                     element: <PharmacistDashboard />,
                     children:[
-                        {path: "", index:true , element:<DashboardProducts/> },
+                        {path: "", index:true ,loader: dashboardProductsLoader ,element:<DashboardProducts/> },
                         {path: "orders", element:<DashboardOrders/>},
                         {path: "settings", element:<DashboardSettings/>},
                         {path: "addProduct", element: <NewProduct />}
                     ]
                 },
                 {path: "activate", element: <Activate />},
-                {path: "pharmacies",  element: <Pharmacies />},
-                {path: "pharmacies/:id",element: <PharmacyDetails />},
-                {path: "products", element: <Products />},
-                {path: "products/:id", element: <ProductPage />},
+                {path: "pharmacies", loader: pharmaciesLoader ,element: <Pharmacies />},
+                {path: "pharmacies/:id", loader: pharmacyDetailsLoader ,element: <PharmacyDetails />},
+                {path: "products", element: <Products />, loader: productsLoader},
+                {path: "products/:id", element: <ProductDetails />, loader: productDetailsLoader},
+                {path: "checkout", element: <Checkout />},
                 {path: "blog", element: <Blog />},
                 {path: "*", element: <NotFound />}
             ]

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor @NoArgsConstructor
 public class PharmacyResponse {
+    private Integer id;
     private String name;
     private String telephone;
     private AddressDTO address;

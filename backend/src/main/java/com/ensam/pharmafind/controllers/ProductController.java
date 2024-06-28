@@ -37,7 +37,6 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProduct(id));
     }
 
-
     @PostMapping
     public ResponseEntity<ProductResponse> saveProduct(
             @RequestPart("product") ProductRequest productRequest,

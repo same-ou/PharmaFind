@@ -1,12 +1,14 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-
-export default function Component() {
+import { Link } from "react-router-dom";
+import { PharmacyResponse } from "@/services/PharmacyService";
+import { getInitials } from "@/lib/utils";
+export default function PharmacyCard({ id,name, address }: PharmacyResponse) {
   return (
-    <section className="grid grid-cols-1 gap-6 p-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:p-6">
+    <Link to={`/pharmacies/${id}`}>
       <div className="relative overflow-hidden rounded-lg group">
         <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/50 to-transparent" />
         <img
-          src="/placeholder.svg"
+          src="https://images.unsplash.com/photo-1547489432-cf93fa6c71ee?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Pharmacy Cover"
           width={400}
           height={300}
@@ -16,131 +18,16 @@ export default function Component() {
           <div className="flex items-center gap-4">
             <Avatar className="border-2 border-background">
               <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback>PH</AvatarFallback>
+              <AvatarFallback>{getInitials(name)}</AvatarFallback>
             </Avatar>
             <div>
-              <h3 className="text-lg font-semibold">Acme Pharmacy</h3>
-              <p className="text-sm text-muted-foreground">123 Main St, Anytown USA</p>
-              <p className="text-sm text-muted-foreground">(555) 555-5555</p>
+              <h3 className="text-lg font-semibold">{name}</h3>
+              <p className="text-sm text-muted-foreground">{`${address.street} | ${address.city} `}</p>
+              <p className="text-sm text-muted-foreground">0624232323</p>
             </div>
           </div>
         </div>
       </div>
-      <div className="relative overflow-hidden rounded-lg group">
-        <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <img
-          src="/placeholder.svg"
-          alt="Pharmacy Cover"
-          width={400}
-          height={300}
-          className="object-cover w-full h-60"
-        />
-        <div className="relative z-10 p-6">
-          <div className="flex items-center gap-4">
-            <Avatar className="border-2 border-background">
-              <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback>PH</AvatarFallback>
-            </Avatar>
-            <div>
-              <h3 className="text-lg font-semibold">Wellness Pharmacy</h3>
-              <p className="text-sm text-muted-foreground">456 Oak Rd, Smalltown USA</p>
-              <p className="text-sm text-muted-foreground">(555) 555-5556</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="relative overflow-hidden rounded-lg group">
-        <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <img
-          src="/placeholder.svg"
-          alt="Pharmacy Cover"
-          width={400}
-          height={300}
-          className="object-cover w-full h-60"
-        />
-        <div className="relative z-10 p-6">
-          <div className="flex items-center gap-4">
-            <Avatar className="border-2 border-background">
-              <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback>PH</AvatarFallback>
-            </Avatar>
-            <div>
-              <h3 className="text-lg font-semibold">Sunrise Pharmacy</h3>
-              <p className="text-sm text-muted-foreground">789 Oak St, Bigcity USA</p>
-              <p className="text-sm text-muted-foreground">(555) 555-5557</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="relative overflow-hidden rounded-lg group">
-        <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <img
-          src="/placeholder.svg"
-          alt="Pharmacy Cover"
-          width={400}
-          height={300}
-          className="object-cover w-full h-60"
-        />
-        <div className="relative z-10 p-6">
-          <div className="flex items-center gap-4">
-            <Avatar className="border-2 border-background">
-              <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback>PH</AvatarFallback>
-            </Avatar>
-            <div>
-              <h3 className="text-lg font-semibold">Riverdale Pharmacy</h3>
-              <p className="text-sm text-muted-foreground">321 Maple Ln, Smalltown USA</p>
-              <p className="text-sm text-muted-foreground">(555) 555-5558</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="relative overflow-hidden rounded-lg group">
-        <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <img
-          src="/placeholder.svg"
-          alt="Pharmacy Cover"
-          width={400}
-          height={300}
-          className="object-cover w-full h-60"
-        />
-        <div className="relative z-10 p-6">
-          <div className="flex items-center gap-4">
-            <Avatar className="border-2 border-background">
-              <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback>PH</AvatarFallback>
-            </Avatar>
-            <div>
-              <h3 className="text-lg font-semibold">Greenfield Pharmacy</h3>
-              <p className="text-sm text-muted-foreground">159 Pine Rd, Smalltown USA</p>
-              <p className="text-sm text-muted-foreground">(555) 555-5559</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="relative overflow-hidden rounded-lg group">
-        <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <img
-          src="/placeholder.svg"
-          alt="Pharmacy Cover"
-          width={400}
-          height={300}
-          className="object-cover w-full h-60"
-        />
-        <div className="relative z-10 p-6">
-          <div className="flex items-center gap-4">
-            <Avatar className="border-2 border-background">
-              <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback>PH</AvatarFallback>
-            </Avatar>
-            <div>
-              <h3 className="text-lg font-semibold">Midtown Pharmacy</h3>
-              <p className="text-sm text-muted-foreground">987 Main St, Bigcity USA</p>
-              <p className="text-sm text-muted-foreground">(555) 555-5560</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    </Link>
   )
 }

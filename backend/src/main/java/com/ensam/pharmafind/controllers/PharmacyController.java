@@ -49,13 +49,13 @@ public class PharmacyController {
         return ResponseEntity.ok(pharmacyService.savePharmacy(pharmacyRequest, authentication));
     }
 
-    @GetMapping("{id}/products")
+    @GetMapping("/products")
     public ResponseEntity<PageResponse<ProductResponse>> getProductsByPharmacy(
-            @PathVariable Integer id,
+            Authentication authentication,
             @RequestParam(defaultValue = "0", required = false, name = "page") int page,
             @RequestParam(defaultValue = "10", name = "size", required = false) int size
     ){
-        return ResponseEntity.ok(productService.getProductsByPharmacy(id, page, size));
+        return ResponseEntity.ok(productService.getProductsByPharmacy(authentication, page, size));
     }
 
 }

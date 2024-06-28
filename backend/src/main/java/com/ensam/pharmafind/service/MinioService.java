@@ -1,8 +1,6 @@
 package com.ensam.pharmafind.service;
 
-import io.minio.GetPresignedObjectUrlArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
+import io.minio.*;
 import io.minio.errors.*;
 import io.minio.http.Method;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +21,11 @@ public class MinioService {
     final private String bucketName;
 
    public String uploadFile(MultipartFile file) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+       // check if the bucket exists
+         boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+        if (!isExist) {
+            minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+        }
        String filename = UUID.randomUUID().toString();
        minioClient.putObject(
                PutObjectArgs.builder().bucket(bucketName).object(filename)

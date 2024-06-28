@@ -1,16 +1,11 @@
-// implement methods to : 
-// list all products
-// add a product
-// update a product
-// delete a product
-// list products by category
-// list products by price range
-// list products by search term
-// list products in stock
-
 import axios from "axios";
+import { PageResponse } from "./PharmacyService";
 
 axios.defaults.baseURL = "http://localhost:8088/api/v1/";
+
+type Image =  {
+  imageUrl: string;
+}
 
 // Define the Product interface
 export interface Product {
@@ -19,10 +14,12 @@ export interface Product {
   description: string;
   price: number;
   quantity: number;
-  imageUrls?: string[];
+  images?: Image[];
   categories?: number[];
   pharmacyId: number;
 }
+
+
 
 interface ErrorResponse {
   message: string;
@@ -31,7 +28,7 @@ interface ErrorResponse {
 
 // this function will fetch a product from the API based on the provided ID. If the product is found, it will return the product object. If an error occurs, it will return an ErrorResponse object with a message field describing the error.
 export const getProduct = async (
-  id: number
+  id: string
 ): Promise<Product | ErrorResponse> => {
   try {
     const response = await axios.get<Product>(`products/${id}`);
@@ -46,22 +43,24 @@ export const getProduct = async (
 };
 
 //this function will fetch all the product from teh api
-
-export const getProducts = async (): Promise<Product | ErrorResponse> => {
+export const getProducts = async (page: number = 0, size: number = 10): Promise<PageResponse<Product>> => {
   try {
-    const response = await axios.get<Product>("products");
+    const response = await axios.get<PageResponse<Product>>("/products", {
+      params: { page, size },
+    });
     return response.data;
   } catch (error: any) {
-    if (error.response && error.response.data) {
-      return error.response.data as ErrorResponse;
+    if (error.response) {
+      throw new Error(`Error: ${error.response.status} - ${error.response.data.message}`);
+    } else if (error.request) {
+      throw new Error('Error: No response received from the server.');
     } else {
-      return { message: "An unexpected error occurred" };
+      throw new Error(`Error: ${error.message}`);
     }
   }
 };
 
 // this function will save a new product to the API. It takes a Product object as input and returns a Promise that resolves to the saved Product object if successful, or an ErrorResponse object if an error occurs.
-
 export const saveProduct = async (
   product: Product,
   images: File[] | null
@@ -88,4 +87,25 @@ export const saveProduct = async (
   });
 
   return response.data;
+};
+
+export const getProductsByPharmacy = async (page: number = 0, size: number = 10): Promise<PageResponse<Product>> => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get<PageResponse<Product>>('/pharmacies/products', {
+      params: { page, size },
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      throw new Error(`Error: ${error.response.status} - ${error.response.data.message}`);
+    } else if (error.request) {
+      throw new Error('Error: No response received from the server.');
+    } else {
+      throw new Error(`Error: ${error.message}`);
+    }
+  }
 };

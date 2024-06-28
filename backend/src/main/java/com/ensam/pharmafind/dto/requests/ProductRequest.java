@@ -1,5 +1,6 @@
 package com.ensam.pharmafind.dto.requests;
 
+import com.ensam.pharmafind.dto.CategoryDTO;
 import com.ensam.pharmafind.dto.ImageDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
