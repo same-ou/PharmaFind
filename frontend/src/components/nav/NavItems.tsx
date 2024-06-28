@@ -5,11 +5,16 @@ const items = [
   { to: '/pharmacies', label: 'Pharmacies' },
   { to: '/products', label: 'Products' },
   { to: '/services', label: 'Services' },
+  { to: '/blog', label: 'Blog' },
 ];
 
-function NavItems() {
+interface NavItemsProps {
+  direction: 'row' | 'col';
+}
+
+function NavItems({ direction} : NavItemsProps) {
   return (
-    <div className="flex h-full items-center space-x-4">
+    <div className={`flex ${direction === 'row' ? 'h-full' : ''} ${direction === 'row' ? 'items-center' : 'items-start'}  space-${direction === 'row' ? 'x' : 'y'}-4 flex-${direction}`}>
      {items.map((item, index) => (
         <NavItem key={index} to={item.to} label={item.label} />
       ))}

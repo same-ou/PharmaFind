@@ -9,6 +9,7 @@ import com.ensam.pharmafind.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -70,9 +71,10 @@ public class ProductController {
     }
 
     @PutMapping
-    public ResponseEntity<ProductResponse> updateProduct(
+    public ResponseEntity<?> updateProduct(
             @RequestBody ProductRequest productRequest
     ) {
-        return ResponseEntity.ok(productService.saveProduct(productRequest));
+        //  return ResponseEntity.ok(productService.saveProduct(productRequest));
+        return ResponseEntity.ok().build();
     }
 }

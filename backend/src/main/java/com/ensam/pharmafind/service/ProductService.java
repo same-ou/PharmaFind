@@ -108,14 +108,15 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
     }
 
-
+    @Transactional
     public ProductResponse saveProduct(ProductRequest productRequest) {
-        // Convert ProductRequest to Product entity
+
         Product product = ProductMapper.INSTANCE.toProduct(productRequest);
 
         for (Image image : product.getImages()) {
             image.setProduct(product);
         }
+
 
         if (productRequest.getCategories() != null && !productRequest.getCategories().isEmpty()) {
             List<Category> categories = categoryRepository.findAllById(productRequest.getCategories());
@@ -142,36 +143,6 @@ public class ProductService {
         Product savedProduct = productRepository.save(product);
         return ProductMapper.INSTANCE.toProductResponse(savedProduct);
     }
-
-    @Transactional
-    public ProductResponse addProductToPharmacy(Integer pharmacyId, ProductCreateDTO productCreateDTO, List<MultipartFile> imageFiles) {
-        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyId)
-                .orElseThrow(() -> new EntityNotFoundException("Pharmacy not found"));
-
-        Product product = new Product();
-        product.setName(productCreateDTO.getName());
-        product.setDescription(productCreateDTO.getDescription());
-
-        List<Image> images = imageFiles.stream()
-                .map(this::uploadImage)
-                .collect(Collectors.toList());
-        product.setImages(images);
-
-        PharmacyProduct pharmacyProduct = new PharmacyProduct();
-        pharmacyProduct.setProduct(product);
-        pharmacyProduct.setPharmacy(pharmacy);
-        pharmacyProduct.setQuantity(productCreateDTO.getQuantity());
-        pharmacyProduct.setPrice(productCreateDTO.getPrice());
-
-        product.getPharmacyProducts().add(pharmacyProduct);
-        pharmacy.getPharmacyProducts().add(pharmacyProduct);
-
-        Product savedProduct = productRepository.save(product);
-
-        return ProductMapper.INSTANCE.toProductResponse(savedProduct);
-    }
-
-
     public void deleteProduct(Integer id) {
         productRepository.deleteById(id);
     }

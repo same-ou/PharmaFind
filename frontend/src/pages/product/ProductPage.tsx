@@ -20,30 +20,30 @@ interface ErrorResponse {
 }
 
 const ProductPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | ErrorResponse | null>(null);
+  // const { id } = useParams<{ id: string }>();
+  // const [product, setProduct] = useState<Product | ErrorResponse | null>(null);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      const response = await getProduct(Number(id));
-      setProduct(response);
-      console.log(response);
-    };
+  // useEffect(() => {
+  //   const fetchProduct = async () => {
+  //     const response = await getProduct(Number(id));
+  //     setProduct(response);
+  //     console.log(response);
+  //   };
 
-    fetchProduct();
-  }, [id]);
+  //   fetchProduct();
+  // }, [id]);
 
-  if (!product) {
-    return <div>Loading...</div>;
-  }
+  // if (!product) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if ("message" in product) {
-    return <div>Error: {product.message}</div>;
-  }
+  // if ("message" in product) {
+  //   return <div>Error: {product.message}</div>;
+  // }
 
   return (
     <div>
-      <ProductPreview
+      {/* <ProductPreview
         pharmacy_name="Sneaker Company"
         product_name={product.name}
         description={product.description}
@@ -52,7 +52,7 @@ const ProductPage: React.FC = () => {
           id: index,
           image: image.imageUrl,
         }))}
-      />
+      /> */}
     </div>
   );
 };

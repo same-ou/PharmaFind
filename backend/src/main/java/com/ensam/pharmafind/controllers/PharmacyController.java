@@ -58,19 +58,4 @@ public class PharmacyController {
         return ResponseEntity.ok(productService.getProductsByPharmacy(id, page, size));
     }
 
-    @PostMapping(value = "{id}/products", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ProductResponse> saveProduct(
-            @PathVariable Integer id,
-            @RequestPart String name,
-            @RequestPart String description,
-            @RequestPart Integer quantity,
-            @RequestPart Double price,
-            @RequestPart("images") MultipartFile[] files
-    ){
-        if (files.length > 5) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-        ProductCreateDTO productRequest = ProductCreateDTO.builder().name(name).description(description).price(price).quantity(quantity).build();
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProductToPharmacy(id, productRequest, List.of(files)));
-    }
 }
