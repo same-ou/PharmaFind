@@ -1,5 +1,5 @@
 import React from "react";
-import AddProduct from "@/components/Product/AddProduct";
+import AddProduct from "@/components/product/AddProduct";
 
 const NewProduct: React.FC = () => {
   return (

@@ -12,6 +12,7 @@ import { NavLink } from "react-router-dom";
 
 
 import { Bell, Medal, Package, ShoppingCart, Search, Settings} from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 
 export default function PharmacistDashboard() {
@@ -77,7 +78,10 @@ export default function PharmacistDashboard() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="rounded-full border w-8 h-8">
-                <img src="/placeholder.svg" width="32" height="32" className="rounded-full" alt="Avatar" />
+                <Avatar className="w-8 h-8">
+                  <AvatarImage src="/placeholder-user.jpg" />
+                  <AvatarFallback>JD</AvatarFallback>
+                </Avatar>
                 <span className="sr-only">Toggle user menu</span>
               </Button>
             </DropdownMenuTrigger>

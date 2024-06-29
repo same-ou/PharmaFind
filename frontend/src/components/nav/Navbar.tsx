@@ -28,7 +28,7 @@ function Navbar() {
                 </Link>
               </div>
               <div className="z-50 hidden lg:ml-8 lg:block lg:self-stretch">
-                <NavItems />
+                <NavItems direction="row"/>
               </div>
               <div className="flex items-center ml-auto">
                 <UserNav
