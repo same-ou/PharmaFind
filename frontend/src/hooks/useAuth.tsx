@@ -38,7 +38,7 @@ export const AuthProvider = ({children}: Props) => {
             delete axios.defaults.headers.common["Authorization"];
         }
         setIsReady(true);
-    }, []);
+    }, [token]);
 
     const registerUser = async (fistName: string, lastName: string, email: string, password: string, role: string, navigation: string) => {
         await register(fistName,
