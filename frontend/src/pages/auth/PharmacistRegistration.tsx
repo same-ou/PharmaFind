@@ -34,12 +34,12 @@ const PharmacistRegistration = () => {
   });
 
   const onSubmit: SubmitHandler<formFields> = (data) => {
-    console.log(data);
     registerUser(data.firstName,
       data.lastName,
       data.email,
       data.password,
-      "PHARMACIST"
+      "PHARMACIST",
+      "/activate?as=pharmacist"
     );
   }
 

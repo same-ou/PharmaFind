@@ -38,7 +38,8 @@ const ClientRegistration = () => {
       data.lastName,
       data.email,
       data.password,
-    "USER"
+    "USER",
+    "/activate?as=client"
     );
   }
 

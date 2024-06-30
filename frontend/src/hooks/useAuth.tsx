@@ -1,15 +1,14 @@
 import { createContext, useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { register, login, activate } from "../services/AuthService";
 import { UserProfile } from "@/models/user";
-
+import { useNavigate } from "react-router-dom";
 type AuthContextType = {
     user: UserProfile | null;
     token: string | null;
-    registerUser:(fistName: string, lastName: string, email: string, password: string, role: string) => void;
+    registerUser:(fistName: string, lastName: string, email: string, password: string, role: string, navigation: string) => void;
     loginUser:(email: string, password: string) => void;
-    activateAccount:(token: string) => void;
+    activateAccount:(token: string, navigation: string) => void;
     logoutUser:() => void;
     isLoggedIn:() => boolean;
 }
@@ -41,14 +40,14 @@ export const AuthProvider = ({children}: Props) => {
         setIsReady(true);
     }, []);
 
-    const registerUser = async (fistName: string, lastName: string, email: string, password: string, role: string) => {
+    const registerUser = async (fistName: string, lastName: string, email: string, password: string, role: string, navigation: string) => {
         await register(fistName,
             lastName, 
             email,
             password,
             role).then((res) => {
                 if (res.status === 202) {
-                    navigate("/activate")
+                    navigate(navigation)
                 }
             }).catch((err) => {
                 console.log(err);
@@ -73,7 +72,7 @@ export const AuthProvider = ({children}: Props) => {
             }
         });
     }
-    const activateAccount = async (token: string) => {
+    const activateAccount = async (token: string, navigation: string) => {
         await activate(token).then((res) => {
             if(res.status === 200){
                 console.log(res);
@@ -87,7 +86,7 @@ export const AuthProvider = ({children}: Props) => {
                 }
                 localStorage.setItem("user", JSON.stringify(userObj));
                 setUser(userObj);
-                navigate("/");  
+                navigate(navigation);  
             }
         });
     }
