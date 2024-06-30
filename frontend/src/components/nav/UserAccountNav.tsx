@@ -27,7 +27,7 @@ const UserAccountNav = ({ user }: { user: UserProfile }) => {
           </div>
           <DropdownMenuSeparator />
           {
-            user.role.name === 'PHARMACIST' &&
+            user?.role.name === 'PHARMACIST' &&
           <DropdownMenuItem asChild>
             <Link to="/pharmacists/dashboard">Seller Dashboard</Link>
           </DropdownMenuItem> }

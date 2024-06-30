@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/input-otp"
 import { toast } from "@/components/ui/use-toast"
 import { useAuth } from "@/hooks/useAuth"
+import { useSearchParams } from "react-router-dom"
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -28,7 +29,9 @@ const FormSchema = z.object({
 })
 
 export default function Activate() {
-  const {activateAccount} = useAuth()
+  const {activateAccount} = useAuth();
+  const [searchParms, setSearchParams] = useSearchParams();
+  const userType = searchParms.get("as") || "client";
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -38,7 +41,6 @@ export default function Activate() {
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data)
     toast({
       title: "You submitted the following values:",
       description: (
@@ -47,7 +49,9 @@ export default function Activate() {
         </pre>
       ),
     })
-    activateAccount(data.pin)
+    const navigation = userType === "pharmacist" ? "/pharmacists/register-pharmacy" : "/";
+    console.log(navigation);
+    activateAccount(data.pin, navigation);
   }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

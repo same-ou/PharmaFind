@@ -2,10 +2,7 @@ package com.ensam.pharmafind.entities;
 
 import com.ensam.pharmafind.enums.OrderStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,12 +12,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orders")
+@Setter
 public class Order {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private Double total;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

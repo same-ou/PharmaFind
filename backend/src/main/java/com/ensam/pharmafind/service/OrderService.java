@@ -1,6 +1,7 @@
 package com.ensam.pharmafind.service;
 
 import com.ensam.pharmafind.dto.OrderProductDTO;
+import com.ensam.pharmafind.dto.mappers.OrderMapper;
 import com.ensam.pharmafind.dto.requests.OrderCreateDTO;
 import com.ensam.pharmafind.dto.responses.OrderResponseDTO;
 import com.ensam.pharmafind.entities.Order;
@@ -53,7 +54,9 @@ public class OrderService {
         order.setCustomer(costumer);
         order.setStatus(OrderStatus.PENDING);
         order.setProducts(orderItems);
-
+        order.setTotal(orderItems.stream().mapToDouble(OrderProduct::getPrice).sum());
+        
+        order.setAddress(OrderMapper.INSTANCE.toAddress(orderCreateDTO.getAddress()));
         orderItems.forEach(orderProduct -> orderProduct.setOrder(order));
         orderRepository.save(order);
         return OrderResponseDTO.builder()

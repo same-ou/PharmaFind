@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
 
 function Cart() {
-  const {cart} = useCart();
+  const {cart, handleDelete, handleQuantityChange} = useCart();
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ function Cart() {
   ;
 
   return (
-    <Sheet>
+    <Sheet >
     <SheetTrigger className="flex items-center p-2 -m-2 group">
       <ShoppingCart
         aria-hidden="true"
@@ -42,17 +42,25 @@ function Cart() {
       </span>
     </SheetTrigger>
 
-    <SheetContent className="flex flex-col w-full pr-0 sm:max-w-lg overflow-y-auto">
+    <SheetContent className="flex flex-col w-full pr-0 sm:max-w-lg overflow-y-auto"
+    aria-describedby="cart-description">
       <SheetHeader className="space-y-2.5 pr-6">
         <SheetTitle>Cart {itemCount}</SheetTitle>
       </SheetHeader>
+
+      <div id="cart-description" className="sr-only">
+          {itemCount > 0
+            ? `You have ${itemCount} items in your cart. Continue to checkout or add more items.`
+            : 'Your cart is empty. Add items to your cart to proceed to checkout.'}
+      </div>
+
       {itemCount > 0 ? (
         <>
           <div className="flex flex-col w-full pr-6">
             {/* Cart Logic */}
             <ScrollArea>
               {cart.map(( product ) => (
-                <CartItem key={product.id} product={product} />
+                <CartItem key={product.id} product={product} handleDelete={handleDelete} handleQuantityChange={handleDelete} />
               ))}
             </ScrollArea>
           </div>
@@ -74,7 +82,7 @@ function Cart() {
             <SheetFooter>
               <SheetTrigger asChild>
                 <Link
-                  to="/cart"
+                  to="/checkout"
                   className={buttonVariants({ className: "w-full" })}
                 >
                   Continue to Checkout
