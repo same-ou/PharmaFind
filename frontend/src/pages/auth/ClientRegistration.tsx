@@ -33,7 +33,6 @@ const ClientRegistration = () => {
   });
 
   const onSubmit: SubmitHandler<formFields> = (data) => {
-    console.log(data);
     registerUser(data.firstName,
       data.lastName,
       data.email,
