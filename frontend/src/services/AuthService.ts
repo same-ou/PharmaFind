@@ -50,7 +50,7 @@ export const login = async (email: string, password: string) => {
 export const activate = async (token: string) => {
     try {
         const response = await axios.get(API_URL + "activate?token=" + token);
-        return response.data;
+        return response;
     } catch (error: any) {
         return error.response.data;
     }

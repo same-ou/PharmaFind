@@ -30,7 +30,7 @@ const FormSchema = z.object({
 
 export default function Activate() {
   const {activateAccount} = useAuth();
-  const [searchParms, setSearchParams] = useSearchParams();
+  const [searchParms] = useSearchParams();
   const userType = searchParms.get("as") || "client";
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -50,8 +50,8 @@ export default function Activate() {
       ),
     })
     const navigation = userType === "pharmacist" ? "/pharmacists/register-pharmacy" : "/";
-    console.log(navigation);
-    activateAccount(data.pin, navigation);
+    activateAccount(data.pin,
+       navigation);
   }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

@@ -76,13 +76,13 @@ export const AuthProvider = ({children}: Props) => {
         await activate(token).then((res) => {
             if(res.status === 200){
                 console.log(res);
-                localStorage.setItem("token", res?.token);
+                localStorage.setItem("token", res?.data.token);
                 setToken(res?.token);
                 const userObj: UserProfile = {
-                    firstName: res?.user.firstName,
-                    lastName: res?.user.lastName,
-                    email: res?.user.email,
-                    role: res?.user.role
+                    firstName: res?.data.user.firstName,
+                    lastName: res?.data.user.lastName,
+                    email: res?.data.user.email,
+                    role: res?.data.user.role
                 }
                 localStorage.setItem("user", JSON.stringify(userObj));
                 setUser(userObj);
