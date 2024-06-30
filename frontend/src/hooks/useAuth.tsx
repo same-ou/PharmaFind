@@ -74,18 +74,20 @@ export const AuthProvider = ({children}: Props) => {
     }
     const activateAccount = async (token: string, navigation: string) => {
         await activate(token).then((res) => {
+            console.log("Activate",res);
             if(res.status === 200){
                 console.log(res);
-                localStorage.setItem("token", res?.data.token);
+                localStorage.setItem("token", res?.data?.token);
                 setToken(res?.token);
                 const userObj: UserProfile = {
-                    firstName: res?.data.user.firstName,
-                    lastName: res?.data.user.lastName,
-                    email: res?.data.user.email,
-                    role: res?.data.user.role
+                    firstName: res?.data?.user.firstName,
+                    lastName: res?.data?.user.lastName,
+                    email: res?.data?.user.email,
+                    role: res?.data?.user.role
                 }
                 localStorage.setItem("user", JSON.stringify(userObj));
                 setUser(userObj);
+                console.log("navigation", navigation);
                 navigate(navigation);  
             }
         });
