@@ -18,7 +18,6 @@ const ProductListing = ({ index, product }: ProductListingProps) => {
     (acc, image) => [...acc, image.imageUrl],
     [] as string[]
   );
-  console.log(urls);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {

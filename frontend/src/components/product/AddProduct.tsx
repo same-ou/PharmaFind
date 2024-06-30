@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FaBoxOpen } from "react-icons/fa";
 import Select from "react-select"; // Import react-select
 import { saveProduct, Product } from "@/services/ProductService"; // Import the saveProduct function
+import { useNavigate } from "react-router-dom";
+import { toast } from "@/components/ui/use-toast"
 
 const categoriesOptions = [
   { value: 1, label: "Category 1" },
@@ -20,6 +22,7 @@ const AddProduct: React.FC = () => {
   const [categories, setCategories] = useState<number[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -73,8 +76,13 @@ const AddProduct: React.FC = () => {
         quantity: quantity,
         pharmacyId: 1 
       };
-      const savedProduct = await saveProduct(product, images); // Call saveProduct function with product and images
-      console.log("Product saved successfully:", savedProduct);
+      const savedProduct = await saveProduct(product, images);
+      console.log(savedProduct) // Call saveProduct function with product and images
+      toast({
+        title: "Product saved successfully",
+        description: "Your product has been saved successfully."
+      });
+      navigate('..');
 
       // Reset form fields and state if needed
     } catch (error: any) {

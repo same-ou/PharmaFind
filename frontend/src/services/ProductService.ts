@@ -3,7 +3,7 @@ import { PageResponse } from "./PharmacyService";
 
 axios.defaults.baseURL = "http://localhost:8088/api/v1/";
 
-type Image =  {
+export type Image =  {
   imageUrl: string;
 }
 

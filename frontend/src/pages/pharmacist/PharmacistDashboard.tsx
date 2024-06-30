@@ -9,13 +9,15 @@ import { DropdownMenu,
   DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { Outlet } from "react-router-dom"
 import { NavLink } from "react-router-dom";
-
+import { useAuth } from "@/hooks/useAuth"
+import { getInitials } from "@/lib/utils"
 
 import { Bell, Medal, Package, ShoppingCart, Search, Settings} from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 
 export default function PharmacistDashboard() {
+  const { user } = useAuth();
   return (
     <div className="grid min-h-screen w-full grid-cols-[280px_1fr] overflow-hidden">
       <div className="hidden border-r bg-muted/40 lg:block">
@@ -80,7 +82,7 @@ export default function PharmacistDashboard() {
               <Button variant="ghost" size="icon" className="rounded-full border w-8 h-8">
                 <Avatar className="w-8 h-8">
                   <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback>JD</AvatarFallback>
+                  <AvatarFallback>{getInitials(`${user?.firstName} ${user?.lastName}`)}</AvatarFallback>
                 </Avatar>
                 <span className="sr-only">Toggle user menu</span>
               </Button>

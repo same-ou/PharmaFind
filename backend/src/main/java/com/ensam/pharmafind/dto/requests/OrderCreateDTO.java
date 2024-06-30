@@ -1,5 +1,6 @@
 package com.ensam.pharmafind.dto.requests;
 
+import com.ensam.pharmafind.dto.AddressDTO;
 import com.ensam.pharmafind.dto.OrderProductDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,4 +13,5 @@ import java.util.List;
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class OrderCreateDTO {
     List<OrderProductDTO> products;
+    AddressDTO address;
 }
