@@ -6,5 +6,5 @@ export type UserProfile = {
 }
 
 export type Role = {
-    name: string
+    name?: string
 }

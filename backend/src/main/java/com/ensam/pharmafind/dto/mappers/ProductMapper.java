@@ -19,7 +19,7 @@ public interface ProductMapper {
     Image toImage(ImageDTO imageDTO);
 
 // dont map categories
-    @Mapping(target = "categories", ignore = true)
+//    @Mapping(target = "categories", ignore = true)
     Product toProduct(ProductRequest productRequest);
     ProductResponse toProductResponse(Product product);
 }
