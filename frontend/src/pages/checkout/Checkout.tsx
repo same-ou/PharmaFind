@@ -5,12 +5,14 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { useCart } from "@/hooks/useCart"
 import CartItem from "@/components/cart/CartItem"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import placeOrder from "@/services/OrderService"
 import { toast } from "@/components/ui/use-toast"
 
+
 export default function Checkout() {
-  const { cart, handleQuantityChange, handleDelete } = useCart()
+  const { cart, handleQuantityChange, handleDelete, clearCart } = useCart()
+  const navigate = useNavigate();
 
   const [shippingInfo, setShippingInfo] = useState({
     street: "",
@@ -37,14 +39,23 @@ export default function Checkout() {
         postalCode: shippingInfo.zip
       }
     }
+    console.log(order);
     try {
       const orderResponse = await placeOrder(order);
-      toast({
-        title: "Order Placed",
-        description: `Your order has been placed with ID: ${orderResponse.id}`
-      });
+      if(orderResponse) {
+        toast({
+          title: "Order placed successfully",
+          description: `Order ID: ${orderResponse.id}`
+        })
+        clearCart();
+        navigate("/");
+      }
     } catch (error) {
-      console.error(error)
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      })
     }
   }
 
@@ -121,21 +132,13 @@ export default function Checkout() {
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="state">State</Label>
+                  <Label htmlFor="state">Zip Code</Label>
                   <Input
-                    id="state"
-                    value={shippingInfo.state}
-                    onChange={(e) => handleShippingInfoChange("state", e.target.value)}
+                    id="zip"
+                    value={shippingInfo.zip}
+                    onChange={(e) => handleShippingInfoChange("zip", e.target.value)}
                   />
                 </div>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="zip">Zip Code</Label>
-                <Input
-                  id="zip"
-                  value={shippingInfo.zip}
-                  onChange={(e) => handleShippingInfoChange("zip", e.target.value)}
-                />
               </div>
             </form>
           </div>

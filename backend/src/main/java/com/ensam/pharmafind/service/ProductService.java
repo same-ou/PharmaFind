@@ -190,4 +190,20 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    public PageResponse<ProductResponse> searchProducts(String searchQuery, int page, int size) {
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        Page<Product> products = productRepository.searchProducts(searchQuery, pageable);
+        List<ProductResponse> productResponses = products.stream()
+                .map(ProductMapper.INSTANCE::toProductResponse)
+                .toList();
+        return new PageResponse<>(
+                productResponses,
+                products.getNumber(),
+                products.getSize(),
+                products.getTotalElements(),
+                products.getTotalPages(),
+                products.isFirst(),
+                products.isLast()
+        );
+    }
 }

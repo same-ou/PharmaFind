@@ -4,12 +4,23 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Button } from "@/components/ui/button";
 import { Clipboard, Search,  Pill, Upload} from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+
+import { useState } from "react";
 
 
 
 export default function Home() {
+  const [searchQuery, setSearchQuery] = useState("")
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?q=${encodeURIComponent(searchQuery)}`);
+    }
+  }
   return (
     <>
       <MaxWidthWrapper>
@@ -21,8 +32,8 @@ export default function Home() {
           Find the best prescription and non-prescription medicines from top pharmacies.
           </p>
           <div className="w-full mx-auto text-center mt-8">
-                <form className="flex gap-2 w-full">
-                  <Input type="text" placeholder="Search for medicines, vitamins, and more..." className="flex-1" />
+                <form className="flex gap-2 w-full" onSubmit={handleSubmit}>
+                  <Input type="text" placeholder="Search for medicines, vitamins, and more..." className="flex-1" onChange={(e)=> {setSearchQuery(e.target.value)}}/>
                   <Button type="submit">Search</Button>
                 </form>
           </div>

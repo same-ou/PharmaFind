@@ -26,8 +26,12 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<PageResponse<ProductResponse>> getProducts(
             @RequestParam(defaultValue = "0", required = false, name = "page") int page,
-            @RequestParam(defaultValue = "10", name = "size", required = false) int size
+            @RequestParam(defaultValue = "10", name = "size", required = false) int size,
+            @RequestParam(required = false, name = "q") String searchQuery
     ){
+        if (searchQuery != null) {
+            return ResponseEntity.ok(productService.searchProducts(searchQuery, page, size));
+        }
         return ResponseEntity.ok(productService.getProducts(page, size));
     }
 
