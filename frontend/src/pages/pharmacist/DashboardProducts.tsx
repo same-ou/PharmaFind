@@ -26,7 +26,7 @@ function DashboardProducts() {
   const elementNumber = products.totalElements;
   return (
     <section id="products">
-      { elementNumber > 0 ?(
+      { elementNumber > 0 ? (
             <>
         <div className="flex items-center">
           <h2 className="font-semibold text-lg md:text-2xl">Products</h2>

@@ -196,6 +196,18 @@ public class ProductService {
         List<ProductResponse> productResponses = products.stream()
                 .map(ProductMapper.INSTANCE::toProductResponse)
                 .toList();
+        for (ProductResponse productResponse : productResponses) {
+            List<ImageDTO> images = productResponse.getImages().stream().map(image -> {
+                try {
+                    String imageUrl = minioService.getFileUrl(image.getImageUrl());
+                    return new ImageDTO(imageUrl);
+                } catch (Exception e) {
+                    // Handle exception appropriately
+                    return new ImageDTO(image.getImageUrl()); // Return the filename as a fallback
+                }
+            }).collect(Collectors.toList());
+            productResponse.setImages(images);
+        }
         return new PageResponse<>(
                 productResponses,
                 products.getNumber(),

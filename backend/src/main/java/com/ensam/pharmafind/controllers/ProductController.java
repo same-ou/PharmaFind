@@ -27,10 +27,10 @@ public class ProductController {
     public ResponseEntity<PageResponse<ProductResponse>> getProducts(
             @RequestParam(defaultValue = "0", required = false, name = "page") int page,
             @RequestParam(defaultValue = "10", name = "size", required = false) int size,
-            @RequestParam(required = false, name = "q") String searchQuery
+            @RequestParam(required = false, name = "q") String q
     ){
-        if (searchQuery != null) {
-            return ResponseEntity.ok(productService.searchProducts(searchQuery, page, size));
+        if (q != null) {
+            return ResponseEntity.ok(productService.searchProducts(q, page, size));
         }
         return ResponseEntity.ok(productService.getProducts(page, size));
     }
@@ -77,7 +77,6 @@ public class ProductController {
     public ResponseEntity<?> updateProduct(
             @RequestBody ProductRequest productRequest
     ) {
-        //  return ResponseEntity.ok(productService.saveProduct(productRequest));
         return ResponseEntity.ok().build();
     }
 }

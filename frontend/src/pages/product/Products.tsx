@@ -9,7 +9,6 @@ export async function loader({request} : LoaderFunctionArgs) {
   const url = new URL(request.url);
   const searchTerm = url.searchParams.get("q") as string;
   try {
-    
     const data = await getProducts(0, 10, searchTerm);
     return data;
   } catch (error: any) {

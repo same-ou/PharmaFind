@@ -41,15 +41,15 @@ export default function Checkout() {
     }
     console.log(order);
     try {
-      const orderResponse = await placeOrder(order);
-      if(orderResponse) {
+      // const orderResponse = await placeOrder(order);
+    
         toast({
           title: "Order placed successfully",
-          description: `Order ID: ${orderResponse.id}`
+         
         })
         clearCart();
         navigate("/");
-      }
+      
     } catch (error) {
       toast({
         variant: "destructive",
