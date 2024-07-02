@@ -190,4 +190,32 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    public PageResponse<ProductResponse> searchProducts(String searchQuery, int page, int size) {
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        Page<Product> products = productRepository.searchProducts(searchQuery, pageable);
+        List<ProductResponse> productResponses = products.stream()
+                .map(ProductMapper.INSTANCE::toProductResponse)
+                .toList();
+        for (ProductResponse productResponse : productResponses) {
+            List<ImageDTO> images = productResponse.getImages().stream().map(image -> {
+                try {
+                    String imageUrl = minioService.getFileUrl(image.getImageUrl());
+                    return new ImageDTO(imageUrl);
+                } catch (Exception e) {
+                    // Handle exception appropriately
+                    return new ImageDTO(image.getImageUrl()); // Return the filename as a fallback
+                }
+            }).collect(Collectors.toList());
+            productResponse.setImages(images);
+        }
+        return new PageResponse<>(
+                productResponses,
+                products.getNumber(),
+                products.getSize(),
+                products.getTotalElements(),
+                products.getTotalPages(),
+                products.isFirst(),
+                products.isLast()
+        );
+    }
 }

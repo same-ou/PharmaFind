@@ -4,7 +4,6 @@ const items = [
 
   { to: '/pharmacies', label: 'Pharmacies' },
   { to: '/products', label: 'Products' },
-  { to: '/services', label: 'Services' },
   { to: '/blog', label: 'Blog' },
 ];
 

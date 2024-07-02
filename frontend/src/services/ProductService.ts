@@ -43,10 +43,19 @@ export const getProduct = async (
 };
 
 //this function will fetch all the product from teh api
-export const getProducts = async (page: number = 0, size: number = 10): Promise<PageResponse<Product>> => {
+export const getProducts = async (
+  page: number = 0,
+  size: number = 10,
+  searchQuery?: string
+): Promise<PageResponse<Product>> => {
   try {
+    const params: Record<string, any> = { page, size };
+    if (searchQuery) {
+      params.q = searchQuery;
+    }
+    
     const response = await axios.get<PageResponse<Product>>("/products", {
-      params: { page, size },
+      params,
     });
     return response.data;
   } catch (error: any) {
