@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
 
 function Cart() {
-  const {cart, handleDelete, handleQuantityChange} = useCart();
+  const {cart, handleDelete} = useCart();
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {

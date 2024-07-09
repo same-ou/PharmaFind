@@ -18,7 +18,6 @@ public interface ProductMapper {
     ImageDTO toImageDto(Image image);
     Image toImage(ImageDTO imageDTO);
 
-    @Mapping(target = "categories", ignore = true)
     Product toProduct(ProductRequest productRequest);
     ProductResponse toProductResponse(Product product);
 }
