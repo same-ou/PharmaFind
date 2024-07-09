@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input"
 import { useCart } from "@/hooks/useCart"
 import CartItem from "@/components/cart/CartItem"
 import { Link, useNavigate } from "react-router-dom"
-import placeOrder from "@/services/OrderService"
 import { toast } from "@/components/ui/use-toast"
 
 
@@ -21,7 +20,7 @@ export default function Checkout() {
     zip: "",
   })
 
-  const handleShippingInfoChange = (field: any, value: any) => {
+  const handleShippingInfoChange = (field: string, value: string) => {
     setShippingInfo({ ...shippingInfo, [field]: value })
   }
   const handlePlaceOrder = async () => {

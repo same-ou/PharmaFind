@@ -1,7 +1,6 @@
 import { Product } from "@/services/ProductService"
 import { Button } from "../ui/button"
 import { useCart } from "@/hooks/useCart"
-import { useState, useEffect } from "react"
 import { CartProductItem } from "@/types"
 
 type AddToCartButtonProps = {
@@ -10,7 +9,6 @@ type AddToCartButtonProps = {
 
 function AddToCartButton({ product }: AddToCartButtonProps) {
   const { addToCart } = useCart();
-  const [isAdded, setIsAdded] = useState(false);
 
   const item:CartProductItem = {
     id: product.id as number,
@@ -22,7 +20,6 @@ function AddToCartButton({ product }: AddToCartButtonProps) {
 
   const handleAddToCart = async () => {
     addToCart(item);
-    setIsAdded(true);
   }
 
   console.log(item);

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/pharmaFind
+    url: jdbc:postgresql://postgres:5432/pharmaFind
     username: pharmaFind
     password: secret
     driver-class-name: org.postgresql.Driver
@@ -45,7 +45,7 @@ application:
       activation-url: http://localhost:5173/activate-account
   storage:
     minio:
-      url: http://localhost:9000
+      url: http://minio:9000
       accessKey: minioadmin
       secretKey: minioadmin
       bucket-name: pharmafind-bucket
