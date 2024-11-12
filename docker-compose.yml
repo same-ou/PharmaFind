@@ -2,15 +2,15 @@
 version: '3.1'
 services:
 
-#  frontend:
-#    build:
-#      context: ./frontend
-#    container_name: frontend
-#    ports:
-#      - "80:80"
-#    networks:
-#        - pharmaFind
-#    restart: unless-stopped
+ frontend:
+   build:
+     context: ./frontend
+   container_name: frontend
+   ports:
+     - "80:80"
+   networks:
+       - pharmaFind
+   restart: unless-stopped
 
   postgres:
     container_name: postgres
